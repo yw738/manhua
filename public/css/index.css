@@ -1,0 +1,65 @@
+/* 返回按钮 */
+
+.back {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    padding-top: 15px;
+    padding-left: 3.5%;
+    left: 0;
+    top: 0;
+    z-index: 99;
+}
+
+.back>img {
+    width: 30px;
+    height: 30px;
+}
+
+
+/* 漫画列表 */
+
+.span {
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    padding: 6px 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    color: #323233;
+    background-color: #fff;
+    border: 1px solid #ebedf0;
+    border-radius: 4px;
+}
+
+.span.active {
+    background: #fb739a;
+    color: #fff;
+}
+
+.list_box {
+    padding: 7px 10px;
+    box-sizing: border-box;
+}
+
+
+/*  */
+
+.positionR {
+    position: relative;
+}
+
+.morezj .van-button {
+    height: 40px;
+    line-height: 40px;
+    max-width: 200px;
+}
+
+.morezj .van-button__text {
+    display: inline-block;
+    max-width: 168px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
