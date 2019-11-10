@@ -24,6 +24,7 @@
 <script>
 import { homeApi } from "@/api/api";
 import serch from "./Module/Search";
+import { mapState } from "vuex";
 export default {
   name: "home",
 
@@ -33,20 +34,31 @@ export default {
       data: []
     };
   },
+  provide() {
+    return{
+      getHomeData: this.getHomeData
+    }
+  },
   methods: {
-    serch(list){
+    serch(list) {
       this.data = [];
       this.data = list;
       load.clear();
+    },
+    getHomeData() {
+      homeApi().then(res => {
+        let { mhlist } = res.data;
+        this.data = mhlist.slice(0, 30);
+      });
     }
   },
   created() {
-    homeApi().then(res => {
-      let {
-        data: { mhlist }
-      } = res;
-      this.data = mhlist.slice(0, 30);
-    });
+    if (this.serchKey === "") {
+      this.getHomeData();
+    }
+  },
+  computed: {
+    ...mapState(["serchKey"])
   },
   components: {
     serch

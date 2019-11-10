@@ -24,6 +24,8 @@
             </p>
           </div>
           <div class="btn_box">
+            <!-- like -->
+            <van-icon :name="isHouse?'like':'like-o'" size="2em" color="#fb7299" @click="setHouse" class="like"/>
             <van-button round color="#fb7299" @click="start" type="info">观看{{startJson.name}}</van-button>
           </div>
         </van-col>
@@ -35,13 +37,13 @@
         <van-col span="12">全部章节({{list.length}})</van-col>
         <van-col span="12">
           <div class="sort" @click="sortFn">
-            {{sort}}
+            {{sort?'升序':'降序'}}
             <van-icon class="sortTop" name="exchange" />
           </div>
         </van-col>
       </van-row>
     </div>
-    <div>
+    <div id='list_box'>
       <van-row>
         <van-col span="6" v-for="(item,i) in list" :key="i">
           <div class="list_box">
@@ -61,7 +63,7 @@ export default {
     return {
       data: {},
       list: [],
-      sort: "升序",
+      sort: true,
       startJson: {
         name: "",
         url: ""
@@ -100,12 +102,11 @@ export default {
         });
     },
     sortFn() {
-      this.sort === "升序" ? this.sort === "降序" : this.sort === "升序";
-      loading();
+      //DESC ASC
+      this.sort = !this.sort;
       let arr = this.list;
       this.list = [];
       this.list = arr.reverse();
-      load.clear();
     },
     start() {
       let { url } = this.startJson; //这个url 类似id
@@ -115,10 +116,19 @@ export default {
           url: url
         }
       });
+    },
+    setHouse(){
+      //添加收藏
+
     }
   },
   created() {
     this.init();
+  },
+  computed:{
+    isHouse:function(){
+      return false
+    }
   }
 };
 </script>
@@ -201,6 +211,7 @@ export default {
   font-size: 14px;
   text-align: right;
   color: #505050;
+  float: right;
 }
 .sortTop {
   float: right;
@@ -208,5 +219,12 @@ export default {
   margin-left: 4px;
   transform: rotate(90deg);
   color: #fb7299;
+}
+.like{
+  margin:6px 6px 0 0; 
+  float: left;
+}
+#list_box{
+  margin-bottom: 30px;
 }
 </style>
