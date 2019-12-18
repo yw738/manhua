@@ -28,6 +28,7 @@ export default {
         this.setSerchKey("");
         return;
       }
+       this.$emit("serch", []);
       loading();
       mhSerchApi(val).then(res => {
         let { list, code } = res.data;

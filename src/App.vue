@@ -3,3 +3,9 @@
     <router-view />
   </div>
 </template>
+<script>
+export default {
+  methods: {},
+  created() {}
+};
+</script>

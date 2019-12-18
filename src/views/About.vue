@@ -25,13 +25,22 @@
           </div>
           <div class="btn_box">
             <!-- like -->
-            <van-icon :name="isHouse?'like':'like-o'" size="2em" color="#fb7299" @click="setHouse" class="like"/>
+            <van-icon
+              :name="isHouse?'like':'like-o'"
+              size="2em"
+              color="#fb7299"
+              @click="setHouse"
+              class="like"
+            />
             <van-button round color="#fb7299" @click="start" type="info">观看{{startJson.name}}</van-button>
           </div>
         </van-col>
       </van-row>
     </div>
-    <div class="tips tips_box">{{data.introduce}}</div>
+    <div
+      class="tips tips_box"
+      @click="isAllShowTips = !isAllShowTips"
+    >{{isAllShowTips?data.introduce:data.introduce.substring(0,90) + '...'}}</div>
     <div class="zj_box">
       <van-row>
         <van-col span="12">全部章节({{list.length}})</van-col>
@@ -43,11 +52,14 @@
         </van-col>
       </van-row>
     </div>
-    <div id='list_box'>
+    <div id="list_box">
       <van-row>
         <van-col span="6" v-for="(item,i) in list" :key="i">
           <div class="list_box">
-            <router-link :to="{path:'/detail',query:{url:item.url,num:item.num}}" class="span">{{item.tit}}</router-link>
+            <router-link
+              :to="{path:'/detail',query:{url:item.url,num:item.num}}"
+              class="span"
+            >{{item.tit}}</router-link>
           </div>
         </van-col>
       </van-row>
@@ -61,25 +73,28 @@ export default {
   name: "",
   data() {
     return {
-      data: {},
+      data: {
+        introduce: ""
+      },
       list: [],
       sort: true,
       startJson: {
         name: "",
         url: ""
       },
+      isAllShowTips: false
     };
   },
   methods: {
     back() {
       this.$router.push({
-        path: "/",
+        path: "/list"
       });
     },
     init() {
       loading();
       let { url } = this.$route.query;
-      window.sessionStorage.setItem("parentUrl",url);
+      window.sessionStorage.setItem("parentUrl", url);
       mhListApi(url)
         .then(res => {
           let { data, list, code } = res.data;
@@ -91,7 +106,7 @@ export default {
               name: list[0].tit,
               url: list[0].url
             };
-            window.sessionStorage.setItem("mhList",JSON.stringify(list));
+            window.sessionStorage.setItem("mhList", JSON.stringify(list));
             this.data = data;
             this.list = list;
           }
@@ -117,17 +132,16 @@ export default {
         }
       });
     },
-    setHouse(){
+    setHouse() {
       //添加收藏
-
     }
   },
   created() {
     this.init();
   },
-  computed:{
-    isHouse:function(){
-      return false
+  computed: {
+    isHouse: function() {
+      return false;
     }
   }
 };
@@ -170,7 +184,9 @@ export default {
 .item_box img {
   height: 100%;
   width: 100%;
+  min-height: 138px;
   border-radius: 2px;
+  box-shadow: 0px 0px 11px -10px #000;
 }
 .tit_box {
   padding: 0 4%;
@@ -220,11 +236,11 @@ export default {
   transform: rotate(90deg);
   color: #fb7299;
 }
-.like{
-  margin:6px 6px 0 0; 
+.like {
+  margin: 6px 6px 0 0;
   float: left;
 }
-#list_box{
+#list_box {
   margin-bottom: 30px;
 }
 </style>

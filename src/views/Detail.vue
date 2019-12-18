@@ -1,9 +1,10 @@
 <template>
   <div>
+    <!-- 图片盒子 -->
     <div id="img_box" @click="choseType">
-      <img :src="v.img" v-for="(v,i) in list" :key="i" alt />
+      <img :src="v.img" v-for="(v,i) in list" :key="i" />
     </div>
-
+    <!-- 操作按钮 -->
     <div class="nav" v-if="isShow">
       <div class="back" @click="back">
         <img src="./../assets/return-details.png" alt />
@@ -13,6 +14,7 @@
       </div>
     </div>
 
+    <!-- 选择章节 -->
     <van-popup
       v-model="popup"
       @close="cancle"
@@ -41,18 +43,25 @@
 
 <script>
 import { mhDetailsApi } from "@/api/api";
-
+import { Toast } from "vant";
 export default {
   name: "",
   data() {
     return {
+      allList: [], //所有的图片
       list: [], //图片列表
       json: {}, //当前章节
-      isShow: false,
-      popup: false,
+      isShow: false, //是否显示操作栏
+      popup: false, //是否显示章节列表
       mhlist: [], //该漫画所有章节列表
       index: null, //当前漫画的章节
-      timer: true
+      timer: true, //延时执行
+      page: {
+        pageSize: 10, //页数
+        pageNo: 1, //页码
+        maxPage: 1 //最大页数
+      }, //分页
+      pageOrMore: true //下拉到底优先使用 分页(true) 还是 加载更多(false)
     };
   },
   methods: {
@@ -73,12 +82,20 @@ export default {
       this.isShow ? (this.isShow = false) : (this.isShow = true);
     },
     getData() {
+      let { pageSize, pageNo } = this.page;
       let { url } = this.json;
       loading();
       mhDetailsApi(url).then(res => {
         let { code, list } = res.data;
         if (code === 0) {
-          this.list = list;
+          this.allList = list;
+          this.list = list.slice(parseInt(pageNo) - 1, parseInt(pageSize));
+          this.page = {
+            pageSize: pageSize,
+            pageNo: pageNo,
+            maxPage: Math.ceil(list.length / parseInt(pageSize))
+          };
+          //  this.list = list
         }
         load.clear();
       });
@@ -95,18 +112,22 @@ export default {
       this.popup = true;
     },
     goDetail(item) {
-      // this.$router.go(0);
       window.open(window.location.href);
     },
+    /*
+     *下拉到底加载更多(暂时废弃)
+     */
     moreData(json) {
       let { url } = json;
-      let arr = JSON.parse(JSON.stringify(this.list));
+      // let arr = JSON.parse(JSON.stringify(this.list));
+      let arr = JSON.parse(JSON.stringify(this.allList));
       mhDetailsApi(url).then(res => {
         let { code, list } = res.data;
         if (code === 0) {
           [...arr] = [...arr, ...list];
-          // console.log(arr);
-          this.list = arr;
+          this.allList = arr;
+          // this.list = arr;
+
           this.json = json;
         }
       });
@@ -128,6 +149,31 @@ export default {
         return nextJson;
       }
     },
+    /*
+     * 调用分页
+     */
+    pageChange() {
+      let {
+        allList,
+        page: { pageSize, pageNo, maxPage }
+      } = this;
+      pageNo++;
+      if (pageNo <= maxPage) {
+        this.page = {
+          pageNo: pageNo,
+          pageSize: pageSize,
+          maxPage: maxPage
+        };
+        this.list = allList.slice(0, pageNo * pageSize);
+      } else {
+        console.log("分页结束");
+        Toast("到底了");
+        // this.pageOrMore = false; //开启加载更多模式
+      }
+    },
+    /*
+     *监听下拉
+     */
     scroll() {
       let box = document.querySelector("#img_box");
       let that = this;
@@ -136,12 +182,26 @@ export default {
       let pageHeight = window.screen.availHeight;
       if (box == null) return;
       let h = box.clientHeight;
-      if (scrollTop + pageHeight + 100 > h) {
-        if (!that.getNextUrl()) return; //是否是最后一章
+      if (scrollTop + pageHeight + 150 > h) {
+        console.log("划到底了");
         clearTimeout(that.timer);
         that.timer = setTimeout(() => {
-          that.moreData(that.getNextUrl());
+          that.pageChange(); //开始分页
         }, 300);
+        return;
+        // if (that.pageOrMore) {
+        //   clearTimeout(that.timer);
+        //   that.timer = setTimeout(() => {
+        //     that.pageChange(); //开始分页
+        //   }, 300);
+        // } else {
+        //   if (!that.getNextUrl()) return; //检测是否是最后一章
+        //   clearTimeout(that.timer); //清除多余的请求,只留一个 (防抖)
+        //   that.timer = setTimeout(() => {
+        //     that.moreData(that.getNextUrl());
+        //     this.pageOrMore = true; //开启加载分页模式
+        //   }, 300);
+        // }
       }
     }
   },
@@ -151,7 +211,12 @@ export default {
       url: url,
       num: num
     };
-    this.getData();
+    (this.page = {
+      pageSize: 10, //页数
+      pageNo: 1, //页码
+      maxPage: 1 //最大页数
+    }), //分页
+      this.getData();
   },
   mounted() {
     window.addEventListener("scroll", this.scroll, false);

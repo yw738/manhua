@@ -63,3 +63,25 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.flex {
+    display: flex;
+}
+
+.flexCen {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.textOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.index_border {
+    background: #F8F8F9;
+    border-top: 1px solid #F4F4F4;
+    border-bottom: 1px solid #F4F4F4;
+    height: 10px;
+}
