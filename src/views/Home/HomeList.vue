@@ -1,8 +1,8 @@
 <template>
   <div class="home_box">
-      <div class="index_border"></div>
+    <div class="index_border" />
     <div class="flex flexCen head">
-      <div class="tit">人气推荐</div>
+      <div class="tit">{{tit.title}}</div>
       <div class="flex flexCen more">
         <span>更多</span>
         <van-icon name="arrow" size="1.5rem" />
@@ -10,12 +10,14 @@
     </div>
     <div class="content">
       <van-row>
-        <van-col class="home_box_list" span="8" v-for="(v,i) in 6" :key="i">
-          <div>
-            <img src="http://cover.mangabz.com/1/242/20191203160605_180x240_20.jpg" alt />
-            <p class="tit textOverflow">籃球少年王</p>
-            <p class="txt textOverflow">九龍頭高中saddassadad校隊的...</p>
-          </div>
+        <van-col class="home_box_list" span="8" v-for="(v,i) in data" :key="i">
+          <router-link :to="v.link">
+            <div>
+              <img :src="v.img" />
+              <p class="tit textOverflow">{{v.tit}}</p>
+              <p class="txt textOverflow">{{v.txt}}</p>
+            </div>
+          </router-link>
         </van-col>
       </van-row>
     </div>
@@ -27,6 +29,10 @@ export default {
   name: "",
   data() {
     return {};
+  },
+  props: {
+    tit: { type: Object, default: {} },
+    data: { type: Array, default: [] }
   }
 };
 </script>
@@ -34,7 +40,6 @@ export default {
 <style lang="less" scoped>
 .home_box {
   background: #fff;
-
 }
 .head {
   height: 2rem;

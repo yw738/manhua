@@ -4,11 +4,11 @@
       <img src="./../assets/return-details.png" alt />
     </div>
     <div class="img_box">
-      <img :src="data.cover" class="img" />
+      <img :src="data.cover" @error="imgErr" class="img" />
     </div>
     <div class="item_box">
       <van-row class="positionR">
-        <van-col span="7">
+        <van-col span="7" class="about_img">
           <img :src="data.cover" />
         </van-col>
         <van-col span="17">
@@ -25,13 +25,13 @@
           </div>
           <div class="btn_box">
             <!-- like -->
-            <van-icon
+            <!-- <van-icon
               :name="isHouse?'like':'like-o'"
               size="2em"
               color="#fb7299"
               @click="setHouse"
               class="like"
-            />
+            />-->
             <van-button round color="#fb7299" @click="start" type="info">观看{{startJson.name}}</van-button>
           </div>
         </van-col>
@@ -54,7 +54,7 @@
     </div>
     <div id="list_box">
       <van-row>
-        <van-col span="6" v-for="(item,i) in list" :key="i">
+        <van-col span="8" v-for="(item,i) in list" :key="i">
           <div class="list_box">
             <router-link
               :to="{path:'/detail',query:{url:item.url,num:item.num}}"
@@ -95,12 +95,13 @@ export default {
       loading();
       let { url } = this.$route.query;
       window.sessionStorage.setItem("parentUrl", url);
+      let reg = /0|1|2|3|4|5|6|7|8|9|一|二|三|四|五|六|七|八|九|十/g;
       mhListApi(url)
         .then(res => {
           let { data, list, code } = res.data;
           if (code === 0) {
             list.map(v => {
-              v.tit = v.num.substring(0, 4);
+              v.tit = v.num.substring(0, 10);
             });
             this.startJson = {
               name: list[0].tit,
@@ -134,6 +135,10 @@ export default {
     },
     setHouse() {
       //添加收藏
+    },
+    imgErr() {
+      let imgBg = document.querySelector(".img_box .img");
+      imgBg.style.background = "#fb7299b5";
     }
   },
   created() {
@@ -183,8 +188,7 @@ export default {
 }
 .item_box img {
   height: 100%;
-  width: 100%;
-  min-height: 138px;
+  // width: 100%;
   border-radius: 2px;
   box-shadow: 0px 0px 11px -10px #000;
 }
@@ -242,5 +246,9 @@ export default {
 }
 #list_box {
   margin-bottom: 30px;
+}
+.about_img {
+  height: 140px;
+  overflow: hidden;
 }
 </style>

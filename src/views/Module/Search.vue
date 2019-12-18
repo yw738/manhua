@@ -1,7 +1,7 @@
 <template>
   <div class="top">
     <van-search v-model="value" placeholder="请输入搜索关键词" @search="onSearch" show-action shape="round">
-      <div slot="action" @click="onSearch">搜索</div>
+      <div slot="action" @click="cancel">取消</div>
     </van-search>
   </div>
 </template>
@@ -22,13 +22,13 @@ export default {
     ...mapActions(["setSerchKey"]),
     onSearch() {
       let { value: val, getHomeData } = this;
-      console.log('搜索的值:',val);
+      console.log("搜索的值:", val);
       if (val.trim() === "") {
         getHomeData();
         this.setSerchKey("");
         return;
       }
-       this.$emit("serch", []);
+      this.$emit("serch", []);
       loading();
       mhSerchApi(val).then(res => {
         let { list, code } = res.data;
@@ -38,6 +38,11 @@ export default {
         } else {
           Toast.fail("服务器挂了");
         }
+      });
+    },
+    cancel() {
+      this.$router.push({
+        path: "/"
       });
     }
   },

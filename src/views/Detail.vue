@@ -26,7 +26,7 @@
     >
       <div>
         <van-row>
-          <van-col span="6" v-for="(item,i) in mhlist" :key="i">
+          <van-col span="8" v-for="(item,i) in mhlist" :key="i">
             <div class="list_box">
               <router-link
                 :to="{path:'/detail',query:{url:item.url,num:item.num}}"
@@ -57,7 +57,7 @@ export default {
       index: null, //当前漫画的章节
       timer: true, //延时执行
       page: {
-        pageSize: 10, //页数
+        pageSize: 5, //页数
         pageNo: 1, //页码
         maxPage: 1 //最大页数
       }, //分页
@@ -212,7 +212,7 @@ export default {
       num: num
     };
     (this.page = {
-      pageSize: 10, //页数
+      pageSize: 5, //页数
       pageNo: 1, //页码
       maxPage: 1 //最大页数
     }), //分页

@@ -85,3 +85,10 @@
     border-bottom: 1px solid #F4F4F4;
     height: 10px;
 }
+
+.list_box a {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 5px;
+}
