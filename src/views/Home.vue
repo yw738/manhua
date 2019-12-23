@@ -3,8 +3,16 @@
     <div class="flex tipBox">
       <van-search class="serchBox" disabled placeholder="请输入搜索关键词" @click="toSearch" shape="round" />
       <div>
-        <img src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/class.png" alt />
-        <img src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/icon_user.png" alt />
+        <img
+          @click="setHouse"
+          src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/class.png"
+          alt
+        />
+        <img
+          @click="userHome"
+          src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/icon_user.png"
+          alt
+        />
       </div>
     </div>
     <div class="swiper">
@@ -32,6 +40,8 @@
 import { homeApi } from "@/api/api";
 import { mapState } from "vuex";
 import homeList from "./Home/HomeList.vue";
+import { Dialog } from "vant";
+
 export default {
   name: "search",
   data() {
@@ -125,19 +135,21 @@ export default {
           tit: "请叫我英雄",
           txt: "英雄是个曾有过半年连载经验的漫画家"
         },
-          {
+        {
           link: "/about?url=http%3A%2F%2F99770.hhxxee.com%2Fcomic%2F23246",
-          img: "https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=6e79620112950a7b613846966bb809bc/21a4462309f79052ba537e0903f3d7ca7bcbd5bc.jpg",
+          img:
+            "https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike116%2C5%2C5%2C116%2C38/sign=6e79620112950a7b613846966bb809bc/21a4462309f79052ba537e0903f3d7ca7bcbd5bc.jpg",
           tit: "家有女友",
           txt: "夏生因为经常在顶楼遇上来此散心的女老师"
         },
-          {
+        {
           link: "/about?url=mh123%2Fcomic%2F8816.html",
-          img: "https://res.gufengmh.com/gufeng/images/cover/201907/1562205744wS87exCVZduHRgPM.jpg",
+          img:
+            "https://res.gufengmh.com/gufeng/images/cover/201907/1562205744wS87exCVZduHRgPM.jpg",
           tit: "深林之中",
           txt: "带科幻元素的黑暗童话"
         },
-          {
+        {
           link: "/about?url=mh123%2Fcomic%2F10749.html",
           img: "https://img.detatu.com/upload/vod/2019-01-07/154679216217.jpg",
           tit: "鬼灭之刃",
@@ -156,6 +168,28 @@ export default {
   methods: {
     toSearch() {
       this.$router.push({ path: "/search" });
+    },
+    /*
+     *用户收藏
+     */
+    setHouse() {
+      Dialog.alert({
+        title: "提示",
+        message: "暂未开放收藏列表!"
+      }).then(() => {
+        // on close
+      });
+    },
+    /*
+     *用户
+     */
+    userHome() {
+      Dialog.alert({
+        title: "提示",
+        message: "暂未开放个人中心!"
+      }).then(() => {
+        // on close
+      });
     }
   },
   created() {},
