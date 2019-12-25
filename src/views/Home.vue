@@ -203,7 +203,7 @@ export default {
 <style lang="less" scope>
 .swiper,
 .swiper img {
-  height: 240px;
+  height: 220px;
   width: 100%;
 }
 .tipBox {

@@ -10,7 +10,16 @@
         <img src="./../assets/return-details.png" alt />
       </div>
       <div class="morezj">
-        <van-button round color="#fb7299" @click="more" type="info">{{json.num}}</van-button>
+        <van-button
+          round
+          color="#fb7299"
+          @click="more"
+          type="info"
+        >{{json.num&&json.num.length>7?json.num.substring(0,7) + '..':json.num}}</van-button>
+      </div>
+      <div class="nextZj">
+        <van-button size="small" round color="#000" @click="prevGet" type="info">上一话</van-button>
+        <van-button size="small" round color="#000" @click="nextGet" type="info">下一话</van-button>
       </div>
     </div>
 
@@ -82,6 +91,7 @@ export default {
       this.isShow ? (this.isShow = false) : (this.isShow = true);
     },
     getData() {
+      this.init();
       let { pageSize, pageNo } = this.page;
       let { url } = this.json;
       loading();
@@ -95,7 +105,6 @@ export default {
             pageNo: pageNo,
             maxPage: Math.ceil(list.length / parseInt(pageSize))
           };
-          //  this.list = list
         }
         load.clear();
       });
@@ -127,7 +136,6 @@ export default {
           [...arr] = [...arr, ...list];
           this.allList = arr;
           // this.list = arr;
-
           this.json = json;
         }
       });
@@ -144,6 +152,23 @@ export default {
       });
       if (nextJson === null) {
         console.log("最后一话");
+        return false;
+      } else {
+        return nextJson;
+      }
+    },
+    getPrevUrl() {
+      let { url } = this.json;
+      let list = JSON.parse(window.sessionStorage.getItem("mhList"));
+      let nextJson = null;
+      list.forEach((v, i) => {
+        if (url === v.url) {
+          if (i - 1 < 0) return false; //如果是最后一章 直接弹出。
+          nextJson = list[i - 1];
+        }
+      });
+      if (nextJson === null) {
+        console.log("第一话");
         return false;
       } else {
         return nextJson;
@@ -203,6 +228,32 @@ export default {
         //   }, 300);
         // }
       }
+    },
+    init() {
+      this.page = {
+        pageSize: 5, //页数
+        pageNo: 1, //页码
+        maxPage: 1 //最大页数
+      }; //分页
+    },
+    /*
+     * 下一章
+     */
+    prevGet() {
+      if (!this.getPrevUrl()) {
+        Toast("没有上一章");
+        return;
+      } //检测是否是第一话
+      this.json = this.getPrevUrl();
+      this.getData();
+    },
+    nextGet() {
+      if (!this.getNextUrl()) {
+        Toast("最后一话!");
+        return;
+      } //检测是否是最后一章
+      this.json = this.getNextUrl();
+      this.getData();
     }
   },
   created() {
@@ -211,12 +262,7 @@ export default {
       url: url,
       num: num
     };
-    (this.page = {
-      pageSize: 5, //页数
-      pageNo: 1, //页码
-      maxPage: 1 //最大页数
-    }), //分页
-      this.getData();
+    this.getData();
   },
   mounted() {
     window.addEventListener("scroll", this.scroll, false);
@@ -267,9 +313,17 @@ export default {
   border-radius: 50%;
 }
 .morezj {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 .popupClass {
   padding: 10px 0;
+}
+.nav .nextZj {
+  float: right;
+  line-height: 40px;
+  font-size: 1rem;
+}
+.nav .nextZj  button{
+  margin-left:0.5rem; 
 }
 </style>
