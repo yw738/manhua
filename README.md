@@ -1,6 +1,10 @@
-vue-cli 3.0 初始化项目
+vue-cli 3.0 
 
-配置了 element-ui , axios , less , qs , vue全家桶等。
+移动端漫画
+
+浏览地址： http://pinjicake.cn
+
+配置了 vant , axios , less , qs , vue全家桶等。
 
 yarn install ---- 下载模块
 
