@@ -70,7 +70,7 @@ export default {
         message: "确定清空历史记录?"
       }).then(() => {
         that.historyList = [];
-        window.sessionStorage.setItem("historyArr", JSON.stringify([]));
+        window.localStorage.setItem("historyArr", JSON.stringify([]));
       });
     },
     /*
@@ -78,14 +78,14 @@ export default {
      */
     historyPush(key) {
       if (key == "") return;
-      let arr = JSON.parse(window.sessionStorage.getItem("historyArr"));
+      let arr = JSON.parse(window.localStorage.getItem("historyArr"));
       if (arr && typeof arr === "object") {
         if (arr.indexOf(key) < 0) arr.push(key);
-        window.sessionStorage.setItem("historyArr", JSON.stringify(arr));
+        window.localStorage.setItem("historyArr", JSON.stringify(arr));
       } else {
         let array = [];
         array.push(key);
-        window.sessionStorage.setItem("historyArr", JSON.stringify(array));
+        window.localStorage.setItem("historyArr", JSON.stringify(array));
       }
     },
     /*
@@ -100,7 +100,7 @@ export default {
       });
     },
     init() {
-      let arr = JSON.parse(window.sessionStorage.getItem("historyArr"));
+      let arr = JSON.parse(window.localStorage.getItem("historyArr"));
       if (arr) this.historyList = arr;
     },
     //取消
