@@ -43,13 +43,15 @@
     >{{isAllShowTips?data.introduce:data.introduce.substring(0,90) + '...'}}</div>
     <div class="zj_box">
       <van-row>
-        <van-col span="12">全部章节({{list.length}})</van-col>
+        <van-col span="12">
+          <div class="sort" style="float:left">全部章节({{list.length}})</div>
+        </van-col>
         <van-col span="12">
           <div class="sort" @click="sortFn">
             {{sort?'升序':'降序'}}
             <van-icon size="1.4em" class="sortTop" name="exchange" />
           </div>
-           <div class="sort" @click="chListFn" style="margin: 0 1em;">
+          <div class="sort" @click="chListFn" style="margin: 0 1em;">
             <van-icon size="1.4em" class="sortTop" name="apps-o" />
           </div>
         </van-col>
@@ -87,7 +89,7 @@ export default {
       },
       isAllShowTips: false,
       backUrl: null,
-      listSize:8
+      listSize: 8
     };
   },
   methods: {
@@ -127,8 +129,8 @@ export default {
       this.list = [];
       this.list = arr.reverse();
     },
-    chListFn(){
-       this.listSize==8?this.listSize=12:this.listSize=8;
+    chListFn() {
+      this.listSize == 8 ? (this.listSize = 12) : (this.listSize = 8);
     },
     start() {
       let { url } = this.startJson; //这个url 类似id
@@ -234,7 +236,7 @@ export default {
   width: 200px;
 }
 .zj_box {
-  color: #212121;
+  color: #505050;
   padding: 0 10px;
   box-sizing: border-box;
   font-size: 14px;
@@ -248,9 +250,9 @@ export default {
   text-align: right;
   color: #505050;
   float: right;
-      display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .sortTop {
   float: right;
