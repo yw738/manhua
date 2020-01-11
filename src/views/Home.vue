@@ -214,8 +214,8 @@ export default {
   width: 55%;
 }
 .tipBox img {
-  height: 1.8rem;
-  width: 1.8rem;
+  height: 1.4rem;
+  width: 1.4rem;
   margin: 0 1rem;
 }
 .sm {

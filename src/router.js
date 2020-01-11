@@ -8,10 +8,11 @@ export default new Router({
     mode: 'hash',
     base: process.env.BASE_URL,
     routes: [{
-        path: '/',
-        name: 'home',
-        component:  () =>import ('./views/Home.vue')
-    },{
+            path: '/',
+            name: 'home',
+            component: () =>
+                import ('./views/Home.vue')
+        }, {
             path: '/list',
             name: 'list',
             component: List
@@ -24,12 +25,18 @@ export default new Router({
         {
             path: '/about',
             name: 'about',
-            component: () =>import ('./views/About.vue')
+            component: () =>
+                import ('./views/About/About.vue'),
+            // meta: {
+            //     isUseCache: true, // 是否需要缓存
+            //     keepAlive: true // 缓存
+            // }
         },
         {
             path: '/detail',
             name: 'detail',
-            component: () =>import ('./views/Detail.vue')
+            component: () =>
+                import ('./views/Detail.vue')
         }
     ]
 })

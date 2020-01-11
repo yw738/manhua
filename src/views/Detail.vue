@@ -18,8 +18,8 @@
         >{{json.num&&json.num.length>7?json.num.substring(0,7) + '..':json.num}}</van-button>
       </div>
       <div class="nextZj">
-        <van-button size="small" round color="#000" @click="prevGet" type="info">上一话</van-button>
-        <van-button size="small" round color="#000" @click="nextGet" type="info">下一话</van-button>
+        <van-button round color="#000" @click="prevGet" type="info">上一话</van-button>
+        <van-button round color="#000" @click="nextGet" type="info">下一话</van-button>
       </div>
     </div>
 
@@ -207,7 +207,7 @@ export default {
       let pageHeight = window.screen.availHeight;
       if (box == null) return;
       let h = box.clientHeight;
-      if (scrollTop + pageHeight + 150 > h) {
+      if (scrollTop + pageHeight + 230 > h) {
         console.log("划到底了");
         clearTimeout(that.timer);
         that.timer = setTimeout(() => {
@@ -237,7 +237,7 @@ export default {
       }; //分页
     },
     /*
-     * 下一章
+     * 切换章节
      */
     prevGet() {
       if (!this.getPrevUrl()) {

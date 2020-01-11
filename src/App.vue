@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view  v-if="isShow"/>
+    <keep-alive include="AboutIndex" max="1" :exclude="isKeepalive?'':'AboutIndex'">
+      <router-view v-if="isShow" />
+    </keep-alive>
   </div>
 </template>
 <script>
@@ -8,7 +10,8 @@ import { Dialog } from "vant";
 export default {
   data() {
     return {
-      isShow: false
+      isShow: false,//验证用户是否是移动端预览
+      isKeepalive: false,//是否对详情进行缓存
     };
   },
   methods: {
@@ -48,6 +51,16 @@ export default {
   },
   created() {
     this.init();
-  }
+  },
+  watch: {
+    //监听路由 判断是否进行keep-alive动态缓存 
+    $route: function(to, from) {
+      if (to.name === "detail"||to.name === "about") {
+        this.isKeepalive = true;
+      }else{
+        this.isKeepalive = false;
+      }
+    }
+  },
 };
 </script>

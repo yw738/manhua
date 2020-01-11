@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <div class="back" @click="back">
-      <img src="./../assets/return-details.png" alt />
+      <img src="./../../assets/return-details.png" alt />
     </div>
     <div class="img_box">
       <img :src="data.cover" @error="imgErr" class="img" />
@@ -13,14 +13,14 @@
         </van-col>
         <van-col span="17">
           <div class="tit_box">
-            <h3 class="title">{{data.name}}</h3>
+            <h3 class="title textOverflow">{{data.name}}</h3>
             <p class="txt">
               <van-icon name="user-o" />
               {{data.author}}
             </p>
             <p class="txt">
-              <van-icon name="label-o" />
-              {{data.tag}}
+              <van-icon name="underway-o" />
+              {{data.time}}
             </p>
           </div>
           <div class="btn_box">
@@ -47,14 +47,17 @@
         <van-col span="12">
           <div class="sort" @click="sortFn">
             {{sort?'升序':'降序'}}
-            <van-icon class="sortTop" name="exchange" />
+            <van-icon size="1.4em" class="sortTop" name="exchange" />
+          </div>
+           <div class="sort" @click="chListFn" style="margin: 0 1em;">
+            <van-icon size="1.4em" class="sortTop" name="apps-o" />
           </div>
         </van-col>
       </van-row>
     </div>
     <div id="list_box">
       <van-row>
-        <van-col span="8" v-for="(item,i) in list" :key="i">
+        <van-col :span="listSize" v-for="(item,i) in list" :key="i">
           <div class="list_box">
             <router-link
               :to="{path:'/detail',query:{url:item.url,num:item.num}}"
@@ -70,7 +73,7 @@
 <script>
 import { mhListApi } from "@/api/api";
 export default {
-  name: "",
+  name: "AboutIndex",
   data() {
     return {
       data: {
@@ -82,14 +85,14 @@ export default {
         name: "",
         url: ""
       },
-      isAllShowTips: false
+      isAllShowTips: false,
+      backUrl: null,
+      listSize:8
     };
   },
   methods: {
     back() {
-      this.$router.push({
-        path: "/list"
-      });
+      this.$router.push({ path: this.backUrl || "/" });
     },
     init() {
       loading();
@@ -124,6 +127,9 @@ export default {
       this.list = [];
       this.list = arr.reverse();
     },
+    chListFn(){
+       this.listSize==8?this.listSize=12:this.listSize=8;
+    },
     start() {
       let { url } = this.startJson; //这个url 类似id
       this.$router.push({
@@ -148,6 +154,13 @@ export default {
     isHouse: function() {
       return false;
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === "home" || from.name === "list") {
+        vm.backUrl = from.path;
+      }
+    });
   }
 };
 </script>
@@ -224,6 +237,9 @@ export default {
   color: #212121;
   padding: 0 10px;
   box-sizing: border-box;
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
 }
 .zj_box .sort {
   height: 20px;
@@ -232,10 +248,12 @@ export default {
   text-align: right;
   color: #505050;
   float: right;
+      display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .sortTop {
   float: right;
-  margin-top: 3px;
   margin-left: 4px;
   transform: rotate(90deg);
   color: #fb7299;
