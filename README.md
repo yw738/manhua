@@ -6,9 +6,9 @@ vue v3.0 + vant + less + axios + qs .
 
 yarn
 
-yarn run serve 
+yarn serve 
 
-yarn run build 
+yarn build 
 
 # 2020-1-11
 
