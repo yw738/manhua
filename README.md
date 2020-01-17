@@ -4,7 +4,7 @@ H5漫画
 
 vue v3.0 + vant + less + axios + qs .
 
-yarn
+yarn (请确定你的电脑上安装了yarn)
 
 yarn serve 
 
