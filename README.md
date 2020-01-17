@@ -1,10 +1,8 @@
-vue-cli 3.0 
-
 H5漫画
 
 浏览地址： http://pinjicake.cn
 
-vue + vant + less + axios + qs .
+vue v3.0 + vant + less + axios + qs .
 
 yarn install || yarn
 
