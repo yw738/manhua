@@ -1,6 +1,6 @@
 vue-cli 3.0 
 
-移动端漫画
+H5漫画
 
 浏览地址： http://pinjicake.cn
 
