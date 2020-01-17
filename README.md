@@ -4,7 +4,7 @@ H5漫画
 
 vue v3.0 + vant + less + axios + qs .
 
-yarn install || yarn
+yarn
 
 yarn run serve 
 
