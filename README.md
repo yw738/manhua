@@ -4,10 +4,19 @@ H5漫画
 
 vue v3.0 + vant + less + axios + qs .
 
-yarn (请确定你的电脑上安装了yarn)
 
+# 推荐使用yarn管理依赖
+npm i yarn -g
+
+yarn config set registry htts://registry.npm.taobao.org
+
+# 安装依赖
+yarn 
+
+# 启动项目
 yarn serve 
 
+# 打包项目
 yarn build 
 
 # 2020-1-11
