@@ -1,8 +1,10 @@
+# 简介
 H5漫画
 
 浏览地址： http://pinjicake.cn
 
-vue v3.0 + vant + less + axios + qs .
+技术：vue v3.0 + vant + less + axios + qs .
+# 环境的准备
 
 推荐使用yarn管理依赖
 
@@ -21,6 +23,7 @@ yarn serve
 打包项目
 
 yarn build 
+
 
 # 2020-1-11
 
