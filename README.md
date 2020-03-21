@@ -3,7 +3,7 @@ H5漫画
 
 浏览地址： http://pinjicake.cn/mhapp
 
-技术：vue v3.0 + vant + less + axios + qs .
+技术：vue + vant + less + axios + qs .
 # 环境
 
 推荐使用yarn管理依赖
