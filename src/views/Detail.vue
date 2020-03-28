@@ -70,7 +70,7 @@ export default {
         pageNo: 1, //页码
         maxPage: 1 //最大页数
       }, //分页
-      pageOrMore: true //下拉到底优先使用 分页(true) 还是 加载更多(false)
+      pageIsOver: false //当前章节分页是否结束
     };
   },
   methods: {
@@ -90,6 +90,7 @@ export default {
     choseType() {
       this.isShow ? (this.isShow = false) : (this.isShow = true);
     },
+    //页面数据初始化
     getData() {
       this.init();
       let { pageSize, pageNo } = this.page;
@@ -99,7 +100,7 @@ export default {
         let { code, list } = res.data;
         if (code === 0) {
           this.allList = list;
-          this.list = list.slice(parseInt(pageNo) - 1, parseInt(pageSize));
+          this.list = list.slice(parseInt(pageNo.toString()) - 1, parseInt(pageSize.toString()));
           this.page = {
             pageSize: pageSize,
             pageNo: pageNo,
@@ -121,24 +122,8 @@ export default {
       this.popup = true;
     },
     goDetail(item) {
-      window.open(window.location.href);
-    },
-    /*
-     *下拉到底加载更多(暂时废弃)
-     */
-    moreData(json) {
-      let { url } = json;
-      // let arr = JSON.parse(JSON.stringify(this.list));
-      let arr = JSON.parse(JSON.stringify(this.allList));
-      mhDetailsApi(url).then(res => {
-        let { code, list } = res.data;
-        if (code === 0) {
-          [...arr] = [...arr, ...list];
-          this.allList = arr;
-          // this.list = arr;
-          this.json = json;
-        }
-      });
+      Object.assign(this.json,item);
+      this.getData();
     },
     getNextUrl() {
       let { url } = this.json;
@@ -191,9 +176,11 @@ export default {
         };
         this.list = allList.slice(0, pageNo * pageSize);
       } else {
-        console.log("分页结束");
-        // Toast("到底了");
-        // this.pageOrMore = false; //开启加载更多模式
+        if(!this.pageIsOver){
+          console.log("分页结束");
+          Toast("到底了");
+          this.pageIsOver = true;
+        }
       }
     },
     /*
@@ -202,31 +189,16 @@ export default {
     scroll() {
       let box = document.querySelector("#img_box");
       let that = this;
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       let pageHeight = window.screen.availHeight;
       if (box == null) return;
       let h = box.clientHeight;
-      if (scrollTop + pageHeight + 230 > h) {
-        console.log("划到底了");
+      if (scrollTop + pageHeight + 300 > h) {
         clearTimeout(that.timer);
         that.timer = setTimeout(() => {
           that.pageChange(); //开始分页
         }, 300);
         return;
-        // if (that.pageOrMore) {
-        //   clearTimeout(that.timer);
-        //   that.timer = setTimeout(() => {
-        //     that.pageChange(); //开始分页
-        //   }, 300);
-        // } else {
-        //   if (!that.getNextUrl()) return; //检测是否是最后一章
-        //   clearTimeout(that.timer); //清除多余的请求,只留一个 (防抖)
-        //   that.timer = setTimeout(() => {
-        //     that.moreData(that.getNextUrl());
-        //     this.pageOrMore = true; //开启加载分页模式
-        //   }, 300);
-        // }
       }
     },
     init() {
@@ -234,7 +206,13 @@ export default {
         pageSize: 5, //页数
         pageNo: 1, //页码
         maxPage: 1 //最大页数
-      }; //分页
+      }; 
+      this.pageIsOver = false;
+      this.isShow=false;
+      this.popup=false;
+      this.$nextTick(()=>{
+        document.documentElement.scrollTop?document.documentElement.scrollTop=0:document.body.scrollTop=0;
+      }) //滚动条清零
     },
     /*
      * 切换章节

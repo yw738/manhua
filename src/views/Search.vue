@@ -147,7 +147,7 @@ export default {
   padding: 0.4rem 0.6rem;
   border-radius: 0.2rem;
   display: inline-block;
-  margin: 0 1rem 0 0;
+  margin: 0.6rem 0.6rem 0 0;
 }
 .noHis {
   text-align: center;

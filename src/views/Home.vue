@@ -106,7 +106,7 @@ export default {
           txt: "桐岛青大追随突然消失的枝叶柚希，离开故乡广岛前往东京"
         },
         {
-          link: "/about?url=mh123%2Fcomic%2F8644.html",
+          link: "/about?url=ccmh%2Fmanhua%2F10739",
           img:
             "https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=3736e138a66eddc432eabca958b2dd98/472309f7905298224bccf61edcca7bcb0b46d474.jpg",
           tit: "凉风",
@@ -143,11 +143,10 @@ export default {
           txt: "夏生因为经常在顶楼遇上来此散心的女老师"
         },
         {
-          link: "/about?url=mh123%2Fcomic%2F8816.html",
-          img:
-            "https://res.gufengmh.com/gufeng/images/cover/201907/1562205744wS87exCVZduHRgPM.jpg",
-          tit: "深林之中",
-          txt: "带科幻元素的黑暗童话"
+          link: "/about?url=mhdhttps%3A%2F%2Fm.manhuadui.com%2Fmanhua%2Fjinjidejuren%2F",
+          img: "https://img01.eshanyao.com/images/cover/201810/15391165129WGophC1Qxvw-Z-u.jpg",
+          tit: "进击的巨人",
+          txt: "进击的巨人的漫画"
         },
         {
           link: "/about?url=mh123%2Fcomic%2F10749.html",
