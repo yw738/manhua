@@ -1,7 +1,7 @@
 module.exports = {
   outputDir: process.env.outputDir,
   assetsDir: 'static',
-  publicPath: '/',
+  publicPath: './',
   devServer: {
     open: true,
     host: '0.0.0.0',
