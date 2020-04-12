@@ -1,5 +1,5 @@
 # 简介
-H5漫画 （自用）
+H5漫画
 
 浏览地址： http://pinjicake.cn/mhapp
 
