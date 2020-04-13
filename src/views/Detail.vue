@@ -70,7 +70,8 @@ export default {
         pageNo: 1, //页码
         maxPage: 1 //最大页数
       }, //分页
-      pageIsOver: false //当前章节分页是否结束
+      pageIsOver: false, //当前章节分页是否结束
+      imgHeight:0,//通过这个来判断是否进行懒加载
     };
   },
   methods: {
@@ -190,10 +191,14 @@ export default {
       let box = document.querySelector("#img_box");
       let that = this;
       let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      let pageHeight = window.screen.availHeight;
+      let pageHeight = window.screen.availHeight;img_box
+      if(!this.imgHeight&&box.children[0]){
+        this.imgHeight = box.children[0].clientHeight * 1.5
+      }
       if (box == null) return;
       let h = box.clientHeight;
-      if (scrollTop + pageHeight + 300 > h) {
+      console.log(scrollTop + pageHeight + this.imgHeight,h)
+      if (scrollTop + pageHeight + this.imgHeight > h) {
         clearTimeout(that.timer);
         that.timer = setTimeout(() => {
           that.pageChange(); //开始分页
