@@ -10,7 +10,7 @@
                 <img :src="item.cover" />
               </div>
               <div>
-                <h3 class="tit">{{ item.name }}</h3>
+                <p class="tit">{{ item.name }}</p>
                 <p class="zj">{{ item.latest }}</p>
               </div>
             </div>
@@ -30,10 +30,10 @@ export default {
   data() {
     return {
       data: [],
-      allList:[],
-      page:{
-        pageSize:20,
-        pageNo:1
+      allList: [],
+      page: {
+        pageSize: 20,
+        pageNo: 1
       }
     };
   },
@@ -46,14 +46,14 @@ export default {
     serch(list) {
       this.data = [];
       this.data = list;
-      if(load&&load.clear)load.clear();
+      if (load && load.clear) load.clear();
     },
     getHomeData() {
       homeApi().then(res => {
         let { mhlist } = res.data;
         this.data = mhlist.slice(0, 30);
       });
-    },
+    }
   },
   created() {
     if (this.serchKey === "") {
@@ -75,36 +75,37 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  border-bottom: 1px solid #ebeef5;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 0.01rem solid #ebeef5;
+  box-shadow: 0 0.02rem 0.12rem 0 rgba(0, 0, 0, 0.1);
   transition: all ease 0.3;
 }
 .list {
-  height: 190px;
-  margin: 5px;
+  height: 1.9rem;
+  margin: 0.05rem;
   box-sizing: border-box;
 }
 #content {
-  margin-top: 56px;
+  margin-top: 0.56rem;
 }
 .img_box,
 .img_box img {
   width: 100%;
-  height: 150px;
+  height: 1.5rem;
 }
 .tit,
 .zj {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin: 2px 0 0 0;
+  margin: 0;
 }
 .tit {
-  color: #202121;
-  font-size: 13px;
+  color: #121212;
+  font-size: 0.16rem;
+  line-height: 0.24rem;
 }
 .zj {
   color: #999;
-  font-size: 12px;
+  font-size: 0.12rem;
 }
 </style>

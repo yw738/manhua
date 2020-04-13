@@ -5,7 +5,7 @@
       <div class="tit">{{tit.title}}</div>
       <div class="flex flexCen more">
         <span>更多</span>
-        <van-icon name="arrow" size="1.5rem" />
+        <van-icon name="arrow" size="0.18rem" />
       </div>
     </div>
     <div class="content">
@@ -42,27 +42,25 @@ export default {
   background: #fff;
 }
 .head {
-  height: 2rem;
-  line-height: 2rem;
-  padding: 1rem 1rem 0.5rem;
+  height: 0.24rem;
+  line-height: 0.24rem;
+  padding: 0.12rem 0.12rem 0.06rem;
 }
 .head .tit {
-  font-size: 20px;
+  font-size: 0.2rem;
   color: #121212;
   letter-spacing: 0;
   font-weight: bold;
 }
 .home_box .more span {
-  margin-right: 0.4rem;
-  font-size: 1rem;
+  margin-right: 0.06rem;
+  font-size: 0.14rem;
 }
 .content {
-  padding: 0 0.5rem;
+  padding: 0 0.06rem;
 }
 .content .home_box_list {
-  //   margin-right: 1rem;
-  padding: 0.5rem;
-
+  padding:  0 0.06rem;
   box-sizing: border-box;
 }
 .content div:nth-child(3n) {
@@ -70,23 +68,22 @@ export default {
 }
 .content img {
   width: 100%;
-  height: 140px;
-  border-radius: 0.5rem;
+  height: 1.4rem; 
+  border-radius: 0.06rem;
 }
 .content .tit {
-  margin-top: 5px;
-  font-size: 16px;
+  font-size: 0.16rem;
   color: #121212;
   letter-spacing: 0;
-  line-height: 24px;
+  line-height: 0.24rem;
+  margin: 0;
 }
 .content .txt {
-  margin-top: 3px;
-  font-size: 12px;
+  font-size: 0.12rem;
   color: #909090;
   letter-spacing: 0;
-  line-height: 14px;
-  min-height: 14px;
-  margin-bottom: 0;
+  line-height: 0.14rem;
+  min-height: 0.14rem;
+  margin: 0 0 0.06rem;
 }
 </style>

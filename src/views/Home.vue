@@ -2,7 +2,7 @@
   <div class>
     <div class="flex tipBox">
       <van-search class="serchBox" disabled placeholder="请输入搜索关键词" @click="toSearch" shape="round" />
-      <div>
+      <div class="flex tipBox">
         <img
           @click="setHouse"
           src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/class.png"
@@ -202,25 +202,24 @@ export default {
 <style lang="less" scope>
 .swiper,
 .swiper img {
-  height: 220px;
-  width: 100%;
+  height: 2.2rem;
+  width: 100vw;
 }
 .tipBox {
   justify-content: space-between;
   align-items: center;
 }
 .serchBox {
-  width: 55%;
+  width: 55vw;
 }
 .tipBox img {
-  height: 1.4rem;
-  width: 1.4rem;
-  margin: 0 1rem;
+  height: 0.28rem;
+  width: 0.28rem;
+  margin: 0 0.06rem;
 }
 .sm {
   text-align: left;
-  padding: 1rem;
-  font-size: 0.8rem;
+  padding: 0.1rem;
   color: red;
 }
 </style>

@@ -259,24 +259,24 @@ export default {
 <style lang='less' scoped>
 #img_box {
   display: inline-block;
-  width: 100%;
+  width: 100vw;
 }
 #img_box img {
   float: left;
-  width: 100%;
-  border-bottom: 4px solid black;
+  width: 100vw;
+  border-bottom: 0.04rem solid black;
 }
 .nav {
   position: fixed;
-  bottom: 15px;
-  left: 10px;
-  right: 10px;
+  bottom: 0.15rem;
+  left: 0.1rem;
+  right: 0.1rem;
   z-index: 999;
 }
 .nav .back {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 0.4rem;
+  height: 0.4rem;
   padding: 0;
   left: 0;
   top: 0;
@@ -285,23 +285,23 @@ export default {
   float: left;
 }
 .nav .back img {
-  width: 40px;
-  height: 40px;
+  width: 0.4rem;
+  height: 0.4rem;
   background: black;
   border-radius: 50%;
 }
 .morezj {
-  margin-left: 10px;
+  margin-left: 0.1rem;
 }
 .popupClass {
-  padding: 10px 0;
+  padding: 0.1rem 0;
 }
 .nav .nextZj {
   float: right;
-  line-height: 40px;
-  font-size: 1rem;
+  line-height: 0.4rem;
+  font-size: 0.12rem;
 }
 .nav .nextZj  button{
-  margin-left:0.5rem; 
+  margin-left:0.05rem; 
 }
 </style>

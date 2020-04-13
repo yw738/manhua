@@ -38,9 +38,9 @@
       </van-row>
     </div>
     <div
-      class="tips tips_box"
+      :class="['tips tips_box',isAllShowTips?'':'isShow' ]"
       @click="isAllShowTips = !isAllShowTips"
-    >{{isAllShowTips?data.introduce:data.introduce.substring(0,90) + '...'}}</div>
+    >{{data.introduce}}</div>
     <div class="zj_box">
       <van-row>
         <van-col span="12">
@@ -168,7 +168,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
-@imgHeight: 160px;
+@imgHeight: 1.6rem;
 .color,
 .about {
   color: "#333";
@@ -181,16 +181,25 @@ export default {
 .img {
   width: 100%;
   height: @imgHeight * 2;
-  margin-top: -50px;
-  filter: blur(10px);
+  margin-top: -0.50rem;
+  filter: blur(0.1rem);
 }
 .tips_box {
-  padding: 0 10px;
-  margin: 70px 0 10px;
+  padding: 0 0.1rem;
+  margin: 0.7rem 0 0.1rem;
   text-indent: 2em;
   color: #999;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 0.12rem;
+  line-height: 0.16rem;
+}
+.tips_box.isShow{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .item_box {
@@ -198,33 +207,32 @@ export default {
   margin: 0 3.5%;
   height: auto;
   position: absolute;
-  top: 76px;
+  top: 0.76rem;
   left: 0;
 }
 .item_box img {
   height: 100%;
-  // width: 100%;
-  border-radius: 2px;
-  box-shadow: 0px 0px 11px -10px #000;
+  border-radius: 0.02rem;
+  box-shadow: 0px 0px 0.11rem -0.1rem #000;
 }
 .tit_box {
   padding: 0 4%;
   box-sizing: border-box;
 }
 .title {
-  font-size: 21px;
+  font-size: 0.2rem;
   font-weight: bold;
   margin: 0;
   color: #fff;
 }
 .txt {
-  font-size: 12px;
+  font-size: 0.12rem;
   margin: 2% 0;
   font-weight: normal;
   color: #fff;
 }
 .txt i {
-  margin: 3px 3px 0 0;
+  margin: 0.03rem 0.03rem 0 0;
   float: left;
 }
 .btn_box {
@@ -233,20 +241,20 @@ export default {
   right: 0;
 }
 .btn_box button {
-  width: 200px;
+  width: 2rem;
 }
 .zj_box {
   color: #505050;
-  padding: 0 10px;
+  padding: 0 0.1rem;
   box-sizing: border-box;
-  font-size: 14px;
-  height: 20px;
-  line-height: 20px;
+  font-size: 0.14rem;
+  height: 0.2rem;
+  line-height: 0.2rem;
 }
 .zj_box .sort {
-  height: 20px;
-  line-height: 20px;
-  font-size: 14px;
+  height: 0.2rem;
+  line-height: 0.2rem;
+  font-size: 0.14rem;
   text-align: right;
   color: #505050;
   float: right;
@@ -256,19 +264,19 @@ export default {
 }
 .sortTop {
   float: right;
-  margin-left: 4px;
+  margin-left: 0.04rem;
   transform: rotate(90deg);
   color: #fb7299;
 }
 .like {
-  margin: 6px 6px 0 0;
+  margin: 0.06rem 0.06rem 0 0;
   float: left;
 }
 #list_box {
-  margin-bottom: 30px;
+  margin-bottom: 0.3rem;
 }
 .about_img {
-  height: 140px;
+  height: 1.4rem;
   overflow: hidden;
 }
 </style>

@@ -10,7 +10,7 @@ import { Dialog } from "vant";
 export default {
   data() {
     return {
-      isShow: false,//验证用户是否是移动端预览
+      isShow: true,//验证用户是否是移动端预览
       isKeepalive: false,//是否对详情进行缓存
     };
   },
@@ -50,7 +50,7 @@ export default {
     }
   },
   created() {
-    this.init();
+    // this.init();
   },
   watch: {
     //监听路由 判断是否进行keep-alive动态缓存 
@@ -64,3 +64,14 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+html {
+    font-size: 100vw / 3.75;
+}
+
+body {
+    font-size: 0.14rem;
+}
+
+</style>

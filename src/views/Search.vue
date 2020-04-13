@@ -16,7 +16,7 @@
       <div class="tit">
         <div>搜索记录</div>
         <div @click="del">
-          <van-icon name="delete" />
+          <van-icon name="delete" size="0.18rem"/>
         </div>
       </div>
       <div v-if="historyList.length > 0">
@@ -125,33 +125,32 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  border-bottom: 1px solid #ebeef5;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-bottom: 0.01rem solid #ebeef5;
+  box-shadow: 0 0.02rem 0.1rem 0 rgba(0, 0, 0, 0.1);
   transition: all ease 0.3;
 }
 .history {
-  margin-top: 55px;
-  padding: 0 1rem;
+  margin-top: 0.56rem;
+  padding: 0 0.1rem;
 }
 .history .tit {
-  padding: 1rem 0;
+  padding: 0.1rem 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.16rem;
 }
 
 .his_list {
   background: #f3eeee;
   color: #505050;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.2rem;
+  padding: 0.04rem 0.06rem;
+  border-radius: 0.02rem;
   display: inline-block;
-  margin: 0.6rem 0.6rem 0 0;
+  margin: 0.06rem 0.06rem 0 0;
 }
 .noHis {
   text-align: center;
-  font-size: 1rem;
   color: #505050;
 }
 </style>

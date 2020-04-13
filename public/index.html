@@ -5,11 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="static/css/index.css">
     <title>app</title>
+    <script>
+        // 解决移动端 1px 细线的问题
+        (function() {
+            let scale = 1 / devicePixelRatio; //DPR 比值
+            document.querySelector("meta[name='viewport']").setAttribute("content", 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no')
+        })()
+    </script>
 </head>
 
 <body>
