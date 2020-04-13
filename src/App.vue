@@ -72,7 +72,8 @@ html {
 
 body {
     font-size: 0.14rem;
-    overflow: hidden;
 }
-
+#app{
+  overflow: hidden;
+}
 </style>
