@@ -2,7 +2,7 @@
   <div>
     <!-- 图片盒子 -->
     <div id="img_box" @click="choseType">
-      <img :src="v.img" v-for="(v,i) in list" :key="i" />
+      <img :src="v.img" v-for="(v, i) in list" :key="i" />
     </div>
     <!-- 操作按钮 -->
     <div class="nav" v-if="isShow">
@@ -10,16 +10,19 @@
         <img src="./../assets/return-details.png" alt />
       </div>
       <div class="morezj">
-        <van-button
-          round
-          color="#fb7299"
-          @click="more"
-          type="info"
-        >{{json.num&&json.num.length>7?json.num.substring(0,7) + '..':json.num}}</van-button>
+        <van-button round color="#fb7299" @click="more" type="info">{{
+          json.num && json.num.length > 7
+            ? json.num.substring(0, 7) + ".."
+            : json.num
+        }}</van-button>
       </div>
       <div class="nextZj">
-        <van-button round color="#000" @click="prevGet" type="info">上一话</van-button>
-        <van-button round color="#000" @click="nextGet" type="info">下一话</van-button>
+        <van-button round color="#000" @click="prevGet" type="info"
+          >上一话</van-button
+        >
+        <van-button round color="#000" @click="nextGet" type="info"
+          >下一话</van-button
+        >
       </div>
     </div>
 
@@ -27,21 +30,25 @@
     <van-popup
       v-model="popup"
       @close="cancle"
-      :duration=".2"
+      :duration="0.2"
       round
       position="bottom"
       class="popupClass"
-      :style="{ height: '70%'}"
+      :style="{ height: '70%' }"
     >
       <div>
         <van-row>
-          <van-col span="8" v-for="(item,i) in mhlist" :key="i">
+          <van-col span="8" v-for="(item, i) in mhlist" :key="i">
             <div class="list_box">
               <router-link
-                :to="{path:'/detail',query:{url:item.url,num:item.num}}"
-                :class="index ==i?'span active':'span' "
+                :to="{
+                  path: '/detail',
+                  query: { url: item.url, num: item.num },
+                }"
+                :class="index == i ? 'span active' : 'span'"
                 @click.native="goDetail(item)"
-              >{{item.tit}}</router-link>
+                >{{ item.tit }}</router-link
+              >
             </div>
           </van-col>
         </van-row>
@@ -68,10 +75,10 @@ export default {
       page: {
         pageSize: 5, //页数
         pageNo: 1, //页码
-        maxPage: 1 //最大页数
+        maxPage: 1, //最大页数
       }, //分页
       pageIsOver: false, //当前章节分页是否结束
-      imgHeight:0,//通过这个来判断是否进行懒加载
+      imgHeight: 0, //通过这个来判断是否进行懒加载
     };
   },
   methods: {
@@ -80,8 +87,8 @@ export default {
       this.$router.push({
         path: "/about",
         query: {
-          url: url
-        }
+          url: url,
+        },
       });
     },
     cancle() {
@@ -97,15 +104,41 @@ export default {
       let { pageSize, pageNo } = this.page;
       let { url } = this.json;
       loading();
-      mhDetailsApi(url).then(res => {
+      mhDetailsApi(url).then((res) => {
         let { code, list } = res.data;
         if (code === 0) {
           this.allList = list;
-          this.list = list.slice(parseInt(pageNo.toString()) - 1, parseInt(pageSize.toString()));
+          this.list = list.slice(
+            parseInt(pageNo.toString()) - 1,
+            parseInt(pageSize.toString())
+          );
           this.page = {
             pageSize: pageSize,
             pageNo: pageNo,
-            maxPage: Math.ceil(list.length / parseInt(pageSize))
+            maxPage: Math.ceil(list.length / parseInt(pageSize)),
+          };
+        }
+        load.clear();
+      });
+    },
+    //页面数据初始化2
+    getNextData() {
+      // this.init();
+      let { pageSize, pageNo } = this.page;
+      let { url } = this.json;
+      loading();
+      mhDetailsApi(url).then((res) => {
+        let { code, list } = res.data;
+        if (code === 0) {
+          this.pageIsOver = false;
+          this.isShow = false;
+          this.popup = false;
+          this.allList = [...this.allList,...list];
+          this.list = this.allList.slice(0, (pageNo + 1) * pageSize);
+          this.page = {
+            pageSize: pageSize,
+            pageNo: pageNo + 1,
+            maxPage: Math.ceil(this.allList.length / parseInt(pageSize)),
           };
         }
         load.clear();
@@ -123,9 +156,12 @@ export default {
       this.popup = true;
     },
     goDetail(item) {
-      Object.assign(this.json,item);
+      Object.assign(this.json, item);
       this.getData();
     },
+    /*
+     * 获取下一章节信息
+     */
     getNextUrl() {
       let { url } = this.json;
       let list = JSON.parse(window.sessionStorage.getItem("mhList"));
@@ -137,12 +173,14 @@ export default {
         }
       });
       if (nextJson === null) {
-        console.log("最后一话");
         return false;
       } else {
         return nextJson;
       }
     },
+    /*
+     * 获取上一章节信息
+     */
     getPrevUrl() {
       let { url } = this.json;
       let list = JSON.parse(window.sessionStorage.getItem("mhList"));
@@ -154,7 +192,6 @@ export default {
         }
       });
       if (nextJson === null) {
-        console.log("第一话");
         return false;
       } else {
         return nextJson;
@@ -166,21 +203,21 @@ export default {
     pageChange() {
       let {
         allList,
-        page: { pageSize, pageNo, maxPage }
+        page: { pageSize, pageNo, maxPage },
       } = this;
       pageNo++;
       if (pageNo <= maxPage) {
         this.page = {
           pageNo: pageNo,
           pageSize: pageSize,
-          maxPage: maxPage
+          maxPage: maxPage,
         };
         this.list = allList.slice(0, pageNo * pageSize);
       } else {
-        if(!this.pageIsOver){
-          console.log("分页结束");
+        if (!this.pageIsOver) {
           Toast("到底了");
           this.pageIsOver = true;
+          this.nextGet(true);
         }
       }
     },
@@ -189,19 +226,18 @@ export default {
      */
     scroll() {
       let box = document.querySelector("#img_box");
-      let that = this;
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      let pageHeight = window.screen.availHeight;img_box
-      if(!this.imgHeight&&box.children[0]){
-        this.imgHeight = box.children[0].clientHeight * 1.5
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      let pageHeight = window.screen.availHeight;
+      if (!this.imgHeight && box.children[0]) {
+        this.imgHeight = box.children[0].clientHeight * 1.5;
       }
       if (box == null) return;
       let h = box.clientHeight;
-      console.log(scrollTop + pageHeight + this.imgHeight,h)
       if (scrollTop + pageHeight + this.imgHeight > h) {
-        clearTimeout(that.timer);
-        that.timer = setTimeout(() => {
-          that.pageChange(); //开始分页
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          this.pageChange(); //开始分页
         }, 300);
         return;
       }
@@ -210,17 +246,19 @@ export default {
       this.page = {
         pageSize: 5, //页数
         pageNo: 1, //页码
-        maxPage: 1 //最大页数
-      }; 
+        maxPage: 1, //最大页数
+      };
       this.pageIsOver = false;
-      this.isShow=false;
-      this.popup=false;
-      this.$nextTick(()=>{
-        document.documentElement.scrollTop?document.documentElement.scrollTop=0:document.body.scrollTop=0;
-      }) //滚动条清零
+      this.isShow = false;
+      this.popup = false;
+      this.$nextTick(() => {
+        document.documentElement.scrollTop
+          ? (document.documentElement.scrollTop = 0)
+          : (document.body.scrollTop = 0);
+        }); //滚动条清零
     },
     /*
-     * 切换章节
+     * 上一章
      */
     prevGet() {
       if (!this.getPrevUrl()) {
@@ -230,20 +268,28 @@ export default {
       this.json = this.getPrevUrl();
       this.getData();
     },
-    nextGet() {
+    /*
+     * 下一章
+     */
+    nextGet(isNext) {
       if (!this.getNextUrl()) {
         Toast("最后一话!");
         return;
       } //检测是否是最后一章
       this.json = this.getNextUrl();
-      this.getData();
-    }
+      if(isNext){
+        this.getNextData();
+      }else{
+        this.getData();
+      }
+      
+    },
   },
   created() {
     let { url, num } = this.$route.query;
     this.json = {
       url: url,
-      num: num
+      num: num,
     };
     this.getData();
   },
@@ -257,11 +303,11 @@ export default {
       window.attachEvent("scroll", this.scroll, false);
     }
     console.log("初始化scroll事件。");
-  }
+  },
 };
 </script>
 
-<style lang='less' scoped>
+<style lang="less" scoped>
 #img_box {
   display: inline-block;
   width: 100vw;
@@ -269,7 +315,7 @@ export default {
 #img_box img {
   float: left;
   width: 100vw;
-  border-bottom: 0.04rem solid black;
+  // border-bottom: 0.04rem solid black;
 }
 .nav {
   position: fixed;
@@ -306,7 +352,7 @@ export default {
   line-height: 0.4rem;
   font-size: 0.12rem;
 }
-.nav .nextZj  button{
-  margin-left:0.05rem; 
+.nav .nextZj button {
+  margin-left: 0.05rem;
 }
 </style>
