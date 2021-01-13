@@ -4,14 +4,17 @@
     <div id="content">
       <van-row>
         <van-col span="8" v-for="(item, index) in data" :key="index">
-          <router-link :to="{ path: '/about', query: { url: item.url } }">
+          <router-link
+            :to="{ path: '/about', query: { url: item.cartoonId } }"
+            @click.native="selectList(item)"
+          >
             <div class="list">
               <div class="img_box">
                 <img :src="item.cover" />
               </div>
               <div>
-                <p class="tit">{{ item.name }}</p>
-                <p class="zj">{{ item.latest }}</p>
+                <p class="tit">{{ item.title }}</p>
+                <p class="zj">{{ item.author }}</p>
               </div>
             </div>
           </router-link>
@@ -22,8 +25,8 @@
 </template>
 
 <script>
-import { homeApi } from "@/api/api";
-import serch from "./Module/Search.vue";
+import { mhSerchApi } from "@/api/api";
+import serch from "./../Module/Search.vue";
 import { mapState } from "vuex";
 export default {
   name: "list",
@@ -33,39 +36,53 @@ export default {
       allList: [],
       page: {
         pageSize: 20,
-        pageNo: 1
-      }
+        pageNo: 1,
+      },
     };
   },
   provide() {
     return {
-      getHomeData: this.getHomeData
+      getHomeData: this.getHomeData,
     };
   },
   methods: {
+    /**
+     * 检索回调
+     */
     serch(list) {
       this.data = [];
       this.data = list;
       if (load && load.clear) load.clear();
     },
+    /**
+     * 获取默认查询的信息
+     * 当检索值为空时触发
+     */
     getHomeData() {
-      homeApi().then(res => {
-        let { mhlist } = res.data;
-        this.data = mhlist.slice(0, 30);
+      mhSerchApi("冰海战记").then((res) => {
+        let { data, code } = res.data;
+        if (code === 0) {
+          this.data = data.data.slice(0, 30);
+        }
       });
-    }
+    },
+    /**
+     * 节点的点击事件（跳转之前触发）
+     * 存储漫画信息
+     */
+    selectList(item) {
+      sessionStorage.setItem("mhItem",JSON.stringify(item))
+    },
   },
   created() {
-    if (this.serchKey === "") {
-      this.getHomeData();
-    }
+    if (this.serchKey === "") this.getHomeData();
   },
   computed: {
-    ...mapState(["serchKey"])
+    ...mapState(["serchKey"]),
   },
   components: {
-    serch
-  }
+    serch,
+  },
 };
 </script>
 

@@ -5,10 +5,11 @@ import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import App from './App.vue'
-import Vant from 'vant';
+import Vant,{Lazyload} from 'vant';
 import 'vant/lib/index.css';
 import "@/components/Js/index"
 Vue.use(Vant);
+Vue.use(Lazyload);
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios;
 Vue.prototype.$qs = qs;

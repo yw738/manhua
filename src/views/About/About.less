@@ -1,0 +1,111 @@
+@imgHeight: 1.6rem;
+.color,
+.about {
+  color: "#333";
+}
+.img_box {
+  width: 100%;
+  height: @imgHeight;
+  overflow: hidden;
+}
+.img {
+  width: 100%;
+  height: @imgHeight * 2;
+  margin-top: -0.50rem;
+  filter: blur(0.1rem);
+}
+.tips_box {
+  padding: 0 0.1rem;
+  margin: 0.7rem 0 0.1rem;
+  text-indent: 2em;
+  color: #999;
+  font-size: 0.12rem;
+  line-height: 0.16rem;
+}
+.tips_box.isShow{
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.item_box {
+  width: 93%;
+  margin: 0 3.5%;
+  height: auto;
+  position: absolute;
+  top: 0.76rem;
+  left: 0;
+}
+.item_box img {
+  height: 100%;
+  border-radius: 0.02rem;
+  box-shadow: 0px 0px 0.11rem -0.1rem #000;
+}
+.tit_box {
+  padding: 0 4%;
+  box-sizing: border-box;
+}
+.title {
+  font-size: 0.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+.txt {
+  font-size: 0.12rem;
+  margin: 2% 0;
+  font-weight: normal;
+  color: #fff;
+}
+.txt i {
+  margin: 0.03rem 0.03rem 0 0;
+  float: left;
+}
+.btn_box {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.btn_box button {
+  width: 2rem;
+}
+.zj_box {
+  color: #505050;
+  padding: 0 0.1rem;
+  box-sizing: border-box;
+  font-size: 0.14rem;
+  height: 0.2rem;
+  line-height: 0.2rem;
+}
+.zj_box .sort {
+  height: 0.2rem;
+  line-height: 0.2rem;
+  font-size: 0.14rem;
+  text-align: right;
+  color: #505050;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sortTop {
+  float: right;
+  margin-left: 0.04rem;
+  transform: rotate(90deg);
+  color: #fb7299;
+}
+.like {
+  margin: 0.06rem 0.06rem 0 0;
+  float: left;
+}
+#list_box {
+  margin-bottom: 0.3rem;
+}
+.about_img {
+  height: 1.4rem;
+  overflow: hidden;
+}

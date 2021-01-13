@@ -33,6 +33,9 @@
 </template>
 
 <script>
+/**
+ * 查询页（首页 到 列表页中间的那一页）
+*/
 import { mapState, mapActions } from "vuex";
 import { Dialog, Toast } from "vant";
 export default {
@@ -103,7 +106,9 @@ export default {
       let arr = JSON.parse(window.localStorage.getItem("historyArr"));
       if (arr) this.historyList = arr;
     },
-    //取消
+    /**
+     * 取消
+    */
     cancel() {
       this.$router.push({
         path:'/'

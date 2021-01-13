@@ -1,25 +1,36 @@
 <template>
   <div class="top">
-    <van-search v-model="value" placeholder="请输入搜索关键词" @search="onSearch" show-action shape="round">
+    <van-search
+      v-model="value"
+      placeholder="请输入搜索关键词"
+      @search="onSearch"
+      show-action
+      shape="round"
+    >
       <div slot="action" @click="cancel">取消</div>
     </van-search>
   </div>
 </template>
 
 <script>
+/**
+ * 搜索框
+*/
 import { mhSerchApi } from "@/api/api";
 import { Toast } from "vant";
 import { mapActions, mapState } from "vuex";
 export default {
-  name: "",
   data() {
     return {
-      value: ""
+      value: "",
     };
   },
   inject: ["getHomeData"],
   methods: {
     ...mapActions(["setSerchKey"]),
+    /**
+     * 查询
+    */
     onSearch() {
       let { value: val, getHomeData } = this;
       console.log("搜索的值:", val);
@@ -30,21 +41,24 @@ export default {
       }
       this.$emit("serch", []);
       loading();
-      mhSerchApi(val).then(res => {
-        let { list, code } = res.data;
+      mhSerchApi(val).then((res) => {
+        let { data, code } = res.data;
         if (code === 0) {
           this.setSerchKey(val);
-          this.$emit("serch", list);
+          this.$emit("serch", data.data);
         } else {
-          Toast.fail("服务器挂了");
+          Toast.fail("服务器出错");
         }
       });
     },
+    /**
+     * 取消
+    */
     cancel() {
       this.$router.push({
-        path: "/"
+        path: "/",
       });
-    }
+    },
   },
   created() {
     let { serchKey, onSearch } = this;
@@ -54,8 +68,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(["serchKey"])
-  }
+    ...mapState(["serchKey"]),
+  },
 };
 </script>
 

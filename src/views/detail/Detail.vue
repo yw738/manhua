@@ -2,12 +2,20 @@
   <div>
     <!-- 图片盒子 -->
     <div id="img_box" @click="choseType">
-      <img :src="v.img" v-for="(v, i) in list" :key="i" />
+      <!-- <img :src="item" v-for="(item, i) in list" :key="i" /> -->
+      <van-image
+        width="100vw"
+        height="auto"
+        :lazyLoad="true"
+        v-for="(item, i) in list"
+        :key="i"
+        :src="item"
+      />
     </div>
     <!-- 操作按钮 -->
     <div class="nav" v-if="isShow">
       <div class="back" @click="back">
-        <img src="./../assets/return-details.png" alt />
+        <img src="./../../assets/return-details.png" alt />
       </div>
       <div class="morezj">
         <van-button round color="#fb7299" @click="more" type="info">{{
@@ -58,13 +66,14 @@
 </template>
 
 <script>
+/**
+ * 漫画详情页
+ */
 import { mhDetailsApi } from "@/api/api";
 import { Toast } from "vant";
 export default {
-  name: "",
   data() {
     return {
-      allList: [], //所有的图片
       list: [], //图片列表
       json: {}, //当前章节
       isShow: false, //是否显示操作栏
@@ -72,16 +81,12 @@ export default {
       mhlist: [], //该漫画所有章节列表
       index: null, //当前漫画的章节
       timer: true, //延时执行
-      page: {
-        pageSize: 5, //页数
-        pageNo: 1, //页码
-        maxPage: 1, //最大页数
-      }, //分页
-      pageIsOver: false, //当前章节分页是否结束
-      imgHeight: 0, //通过这个来判断是否进行懒加载
     };
   },
   methods: {
+    /**
+     * 返回上一级
+     */
     back() {
       let url = window.sessionStorage.getItem("parentUrl");
       this.$router.push({
@@ -91,72 +96,79 @@ export default {
         },
       });
     },
+    /**
+     * 模态框 取消回调
+     */
     cancle() {
       this.isShow = false;
       this.popup = false;
     },
+    /**
+     * 是否显示操作按钮
+     */
     choseType() {
       this.isShow ? (this.isShow = false) : (this.isShow = true);
     },
-    //页面数据初始化
+    /**
+     * 页面数据初始化
+     */
     getData() {
       this.init();
-      let { pageSize, pageNo } = this.page;
       let { url } = this.json;
       loading();
       mhDetailsApi(url).then((res) => {
-        let { code, list } = res.data;
+        let { code } = res.data;
+        let list = res.data.data.data[0].content;
         if (code === 0) {
-          this.allList = list;
-          this.list = list.slice(
-            parseInt(pageNo.toString()) - 1,
-            parseInt(pageSize.toString())
-          );
-          this.page = {
-            pageSize: pageSize,
-            pageNo: pageNo,
-            maxPage: Math.ceil(list.length / parseInt(pageSize)),
-          };
+          this.list = list;
         }
         load.clear();
       });
     },
-    //页面数据初始化2
+    /**
+     * 页面数据初始化2
+     * 自然向下滚动
+     */
     getNextData() {
       // this.init();
-      let { pageSize, pageNo } = this.page;
       let { url } = this.json;
       loading();
       mhDetailsApi(url).then((res) => {
-        let { code, list } = res.data;
+        let { code } = res.data;
+        let list = res.data.data.data[0].content;
         if (code === 0) {
-          this.pageIsOver = false;
           this.isShow = false;
           this.popup = false;
-          this.allList = [...this.allList,...list];
-          this.list = this.allList.slice(0, (pageNo + 1) * pageSize);
-          this.page = {
-            pageSize: pageSize,
-            pageNo: pageNo + 1,
-            maxPage: Math.ceil(this.allList.length / parseInt(pageSize)),
-          };
+          // let oldList = this.list.slice(this.list.length - 10,this.list.length - 1);
+          // debugger
+          this.list = [...this.list, ...list];
         }
         load.clear();
       });
     },
+    /**
+     * 点击获取更多章节信息
+     * 打开模态框
+     */
     more() {
       let { url } = this.json;
       this.mhlist = JSON.parse(window.sessionStorage.getItem("mhList"));
       this.mhlist.forEach((v, i) => {
-        if (v.url === url) {
+        if (v.chapterId === url) {
           this.index = i;
           return false;
         }
       });
       this.popup = true;
     },
+    /**
+     * 模态框里的章节点击回调
+     */
     goDetail(item) {
-      Object.assign(this.json, item);
+      Object.assign(this.json, {
+        url: item.chapterId,
+        num: item.title,
+      });
       this.getData();
     },
     /*
@@ -167,9 +179,12 @@ export default {
       let list = JSON.parse(window.sessionStorage.getItem("mhList"));
       let nextJson = null;
       list.forEach((v, i) => {
-        if (url === v.url) {
+        if (url === v.chapterId) {
           if (i + 1 >= list.length) return false; //如果是最后一章 直接弹出。
-          nextJson = list[i + 1];
+          nextJson = {
+            url: list[i + 1].chapterId,
+            num: list[i + 1].title,
+          };
         }
       });
       if (nextJson === null) {
@@ -184,41 +199,20 @@ export default {
     getPrevUrl() {
       let { url } = this.json;
       let list = JSON.parse(window.sessionStorage.getItem("mhList"));
-      let nextJson = null;
+      let prevJson = null;
       list.forEach((v, i) => {
-        if (url === v.url) {
+        if (url === v.chapterId) {
           if (i - 1 < 0) return false; //如果是最后一章 直接弹出。
-          nextJson = list[i - 1];
+          prevJson = {
+            url: list[i - 1].chapterId,
+            num: list[i - 1].title,
+          };
         }
       });
-      if (nextJson === null) {
+      if (prevJson === null) {
         return false;
       } else {
-        return nextJson;
-      }
-    },
-    /*
-     * 调用分页
-     */
-    pageChange() {
-      let {
-        allList,
-        page: { pageSize, pageNo, maxPage },
-      } = this;
-      pageNo++;
-      if (pageNo <= maxPage) {
-        this.page = {
-          pageNo: pageNo,
-          pageSize: pageSize,
-          maxPage: maxPage,
-        };
-        this.list = allList.slice(0, pageNo * pageSize);
-      } else {
-        if (!this.pageIsOver) {
-          Toast("到底了");
-          this.pageIsOver = true;
-          this.nextGet(true);
-        }
+        return prevJson;
       }
     },
     /*
@@ -226,36 +220,32 @@ export default {
      */
     scroll() {
       let box = document.querySelector("#img_box");
-      let scrollTop =
-        document.documentElement.scrollTop || document.body.scrollTop;
-      let pageHeight = window.screen.availHeight;
-      if (!this.imgHeight && box.children[0]) {
-        this.imgHeight = box.children[0].clientHeight * 1.5;
-      }
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //距离最顶上的距离
+      let pageHeight = window.screen.availHeight; //页面高度
+      let boxH = box.clientHeight; //#img_box 图片盒子的高度
+      let imgHeight = parseInt(boxH / this.list.length); //图片高度
       if (box == null) return;
-      let h = box.clientHeight;
-      if (scrollTop + pageHeight + this.imgHeight > h) {
+      console.log(scrollTop + pageHeight, imgHeight, "------", boxH);
+      if (scrollTop + pageHeight + imgHeight > boxH) {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-          this.pageChange(); //开始分页
+          this.nextGet(true);
         }, 300);
         return;
       }
     },
+    /**
+     * 数据初始化
+     */
     init() {
-      this.page = {
-        pageSize: 5, //页数
-        pageNo: 1, //页码
-        maxPage: 1, //最大页数
-      };
-      this.pageIsOver = false;
+      this.list = [];
       this.isShow = false;
       this.popup = false;
       this.$nextTick(() => {
         document.documentElement.scrollTop
           ? (document.documentElement.scrollTop = 0)
           : (document.body.scrollTop = 0);
-        }); //滚动条清零
+      }); //滚动条清零
     },
     /*
      * 上一章
@@ -270,6 +260,7 @@ export default {
     },
     /*
      * 下一章
+     * @param {Boolean} isNext 是否是向下滑动到最底部
      */
     nextGet(isNext) {
       if (!this.getNextUrl()) {
@@ -277,12 +268,11 @@ export default {
         return;
       } //检测是否是最后一章
       this.json = this.getNextUrl();
-      if(isNext){
+      if (isNext) {
         this.getNextData();
-      }else{
+      } else {
         this.getData();
       }
-      
     },
   },
   created() {
@@ -297,6 +287,9 @@ export default {
     window.addEventListener("scroll", this.scroll, false);
   },
   beforeDestroy() {
+    /**
+     * 解绑事件
+     */
     if (window.removeEventListener) {
       window.removeEventListener("scroll", this.scroll, false);
     } else if (window.attachEvent) {
@@ -304,55 +297,23 @@ export default {
     }
     console.log("初始化scroll事件。");
   },
+  watch: {
+    /**
+     * 监听 当前章节变化
+     * 及时更新地址栏url，防止刷新导致当前章节丢失
+     */
+    json(newVal) {
+      if (newVal && typeof newVal === "object") {
+        this.$router.push({
+          path: "/detail",
+          query: { ...newVal },
+        });
+      }
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-#img_box {
-  display: inline-block;
-  width: 100vw;
-}
-#img_box img {
-  float: left;
-  width: 100vw;
-  // border-bottom: 0.04rem solid black;
-}
-.nav {
-  position: fixed;
-  bottom: 0.15rem;
-  left: 0.1rem;
-  right: 0.1rem;
-  z-index: 999;
-}
-.nav .back {
-  position: relative;
-  width: 0.4rem;
-  height: 0.4rem;
-  padding: 0;
-  left: 0;
-  top: 0;
-}
-.nav > div {
-  float: left;
-}
-.nav .back img {
-  width: 0.4rem;
-  height: 0.4rem;
-  background: black;
-  border-radius: 50%;
-}
-.morezj {
-  margin-left: 0.1rem;
-}
-.popupClass {
-  padding: 0.1rem 0;
-}
-.nav .nextZj {
-  float: right;
-  line-height: 0.4rem;
-  font-size: 0.12rem;
-}
-.nav .nextZj button {
-  margin-left: 0.05rem;
-}
+@import url("./Detail.less");
 </style>
