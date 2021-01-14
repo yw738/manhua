@@ -12,11 +12,11 @@
 
 > git clone https://github.com/yw738/manhua.git
 
-2、安装yarn顺便设置淘宝镜像（可以不设置镜像，如果有yarn跳过此操作）
+2、安装yarn顺便设置淘宝镜像（如果有yarn跳过此操作）
 
-> npm i yarn -g
+> npm i yarn -g     （下载依赖）
 
-> yarn config set registry htts://registry.npm.taobao.org 
+> yarn config set registry htts://registry.npm.taobao.org   （设置镜像。如果网速够快，可以不设置镜像）
 
 3、进入项目目录下载依赖
 
