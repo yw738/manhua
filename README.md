@@ -2,7 +2,7 @@
 技术：vue + vant + less + axios
 
 此项目仅学习交流使用，请勿用于商业（非法）用途！
-接口皆来源网络。运行项目之前请确保有node（nodejs 6.0+）环境以及vue的环境。
+接口皆来源网络。运行项目之前请确保有node（nodejs 6.0+）环境。
 
 如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！
 
@@ -15,6 +15,7 @@
 2、安装yarn顺便设置淘宝镜像（可以不设置镜像，如果有yarn跳过此操作）
 
 > npm i yarn -g
+
 > yarn config set registry htts://registry.npm.taobao.org 
 
 3、进入项目目录下载依赖
