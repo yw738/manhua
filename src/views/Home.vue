@@ -24,8 +24,8 @@
     <div class="swiper">
       <van-swipe :autoplay="3000" :loop="true" indicator-color="white">
         <van-swipe-item v-for="(item, i) in imgList" :key="i">
-          <router-link :to="item.link">
-            <img :src="item.url" />
+          <router-link :to="item.link" @click.native="selectList(item)">
+            <img :src="item.cover" />
           </router-link>
         </van-swipe-item>
       </van-swipe>
@@ -46,19 +46,20 @@
 <script>
 /**
  * 首页
-*/
+ */
 import { homeApi } from "@/api/api";
-import { mapState } from "vuex";
-import homeList from "./Home/HomeList.vue";
+import { mapState, mapMutations } from "vuex";
+import homeList from "./home/HomeList";
 import { Dialog } from "vant";
-import { imgList, topBoxList, bottomList } from "@/util/home.js";
+import { imgList } from "@/util/home.js";
+
 export default {
-  name: "search",
+  name: "home",
   data() {
     return {
       imgList: imgList,
-      topBoxList: topBoxList,
-      bottomList: bottomList,
+      topBoxList: [],
+      bottomList: [],
       topBox: {
         title: "人氣推薦",
       },
@@ -68,6 +69,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setMhData"]),
     toSearch() {
       this.$router.push({ path: "/search" });
     },
@@ -93,6 +95,36 @@ export default {
         // on close
       });
     },
+    /**
+     * 点击回调
+     */
+    selectList(item) {
+      this.setMhData(item);
+      sessionStorage.setItem("mhItem", JSON.stringify(item));
+    },
+  },
+  created() {
+    let homeList = sessionStorage.getItem("homeList");
+    if (homeList) {
+      this.topBoxList = JSON.parse(homeList).slice(0, 6);
+      this.bottomList = JSON.parse(homeList).slice(6, 12);
+    } else {
+      homeApi().then((res) => {
+        let { code } = res.data;
+        let list = res.data.data.data || [];
+        if (code === 0) {
+          list = list.map((item) => {
+            return {
+              ...item,
+              link: `/about?url=${item.cartoonId}`,
+            };
+          });
+          this.topBoxList = list.slice(0, 6);
+          this.bottomList = list.slice(6, 12);
+          sessionStorage.setItem("homeList", JSON.stringify(list)); //首页数据
+        }
+      });
+    }
   },
   components: {
     homeList,
@@ -101,9 +133,13 @@ export default {
 </script>
 
 <style lang="less" scope>
-.swiper,
-.swiper img {
+.swiper {
   height: 2.2rem;
+  width: 100vw;
+  overflow: hidden;
+}
+.swiper img {
+  min-height: 100%;
   width: 100vw;
 }
 .tipBox {

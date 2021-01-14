@@ -27,7 +27,7 @@
 <script>
 import { mhSerchApi } from "@/api/api";
 import serch from "./../Module/Search.vue";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 export default {
   name: "list",
   data() {
@@ -46,6 +46,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(['setMhData']),
     /**
      * 检索回调
      */
@@ -71,7 +72,8 @@ export default {
      * 存储漫画信息
      */
     selectList(item) {
-      sessionStorage.setItem("mhItem",JSON.stringify(item))
+      this.setMhData(item);
+      sessionStorage.setItem("mhItem",JSON.stringify(item));
     },
   },
   created() {

@@ -28,7 +28,7 @@
         <van-button round color="#000" @click="prevGet" type="info"
           >上一话</van-button
         >
-        <van-button round color="#000" @click="nextGet" type="info"
+        <van-button round color="#000" @click="nextGet(false)" type="info"
           >下一话</van-button
         >
       </div>
@@ -81,6 +81,7 @@ export default {
       mhlist: [], //该漫画所有章节列表
       index: null, //当前漫画的章节
       timer: true, //延时执行
+      timerFn: null,
     };
   },
   methods: {
@@ -139,8 +140,6 @@ export default {
         if (code === 0) {
           this.isShow = false;
           this.popup = false;
-          // let oldList = this.list.slice(this.list.length - 10,this.list.length - 1);
-          // debugger
           this.list = [...this.list, ...list];
         }
         load.clear();
@@ -220,16 +219,18 @@ export default {
      */
     scroll() {
       let box = document.querySelector("#img_box");
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop; //距离最顶上的距离
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop; //距离最顶上的距离
       let pageHeight = window.screen.availHeight; //页面高度
       let boxH = box.clientHeight; //#img_box 图片盒子的高度
-      let imgHeight = parseInt(boxH / this.list.length); //图片高度
+      let imgHeight = parseInt(boxH / this.list.length) * 1.5; //图片高度
       if (box == null) return;
-      console.log(scrollTop + pageHeight, imgHeight, "------", boxH);
+      // console.log(scrollTop + pageHeight, imgHeight, "------", boxH);
       if (scrollTop + pageHeight + imgHeight > boxH) {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => {
-          this.nextGet(true);
+          // this.nextGet(true)
+          this.timerFn(true);
         }, 300);
         return;
       }
@@ -262,7 +263,7 @@ export default {
      * 下一章
      * @param {Boolean} isNext 是否是向下滑动到最底部
      */
-    nextGet(isNext) {
+    nextGet(isNext = false) {
       if (!this.getNextUrl()) {
         Toast("最后一话!");
         return;
@@ -274,6 +275,27 @@ export default {
         this.getData();
       }
     },
+    /**
+     * 节流 (立即执行)
+     * 防止多次请求下一页的数据
+     */
+    throttle(fn, delay) {
+      let valid = true;
+      return function () {
+        if (valid) {
+          //休息时间 暂不接客
+          // 工作时间，执行函数并且在间隔期内把状态位设为无效
+          valid = false;
+          fn.apply(this, arguments);
+          console.log("立即执行一次");
+          setTimeout(() => {
+            valid = true;
+          }, delay);
+        } else {
+          console.log("拦截成功");
+        }
+      };
+    },
   },
   created() {
     let { url, num } = this.$route.query;
@@ -282,6 +304,7 @@ export default {
       num: num,
     };
     this.getData();
+    this.timerFn = this.throttle(this.nextGet, 2000);
   },
   mounted() {
     window.addEventListener("scroll", this.scroll, false);

@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive include="AboutIndex" max="1" :exclude="isKeepalive?'':'AboutIndex'">
+    <!-- include 希望缓存的组件   -->
+    <!-- exclude 不希望被缓存的组件 -->
+    <!-- exclude 优先级高于 include -->
+    <keep-alive include="AboutIndex,home" max="1" :exclude="isKeepalive?'':'AboutIndex'">
       <router-view v-if="isShow" />
     </keep-alive>
   </div>
@@ -15,6 +18,9 @@ export default {
     };
   },
   methods: {
+    /**
+     * 验证设备
+    */
     init() {
       var sUserAgent = navigator.userAgent.toLowerCase();
       var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";

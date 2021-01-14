@@ -4,23 +4,23 @@
       <img src="./../../assets/return-details.png" alt />
     </div>
     <div class="img_box">
-      <img :src="data.cover" @error="imgErr" class="img" />
+      <img :src="mhData.cover" @error="imgErr" class="img" />
     </div>
     <div class="item_box">
       <van-row class="positionR">
         <van-col span="7" class="about_img">
-          <img :src="data.cover" />
+          <img :src="mhData.cover" />
         </van-col>
         <van-col span="17">
           <div class="tit_box">
-            <h3 class="title textOverflow">{{ data.title }}</h3>
+            <h3 class="title textOverflow">{{ mhData.title }}</h3>
             <p class="txt">
               <van-icon name="user-o" />
-              {{ data.author }}
+              {{ mhData.author }}
             </p>
             <p class="txt">
               <van-icon name="underway-o" />
-              {{ data.updateTime }}
+              {{ mhData.updateTime }}
             </p>
           </div>
           <div class="btn_box">
@@ -36,7 +36,7 @@
       :class="['tips tips_box', isAllShowTips ? '' : 'isShow']"
       @click="isAllShowTips = !isAllShowTips"
     >
-      {{ data.descs }}
+      {{ mhData.descs }}
     </div>
     <!-- 操作按钮 -->
     <div class="zj_box">
@@ -82,11 +82,13 @@
  * 漫画章节页
  */
 import { mhListApi } from "@/api/api";
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "AboutIndex",
   data() {
     return {
-      data: {}, //章节详情
+      // data: {}, //章节详情
       list: [], //章节列表
       sort: true, //排序规则
       startJson: {
@@ -99,6 +101,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setMhData"]),
     /**
      * 返回上一页
      */
@@ -118,6 +121,7 @@ export default {
           let list = res.data.data.data;
           if (code === 0) {
             list.map((v) => (v.tit = v.title.substring(0, 10)));
+            list = list.sort((n, m) => n.chapterId - m.chapterId); //章节根据id 排个序
             this.startJson = {
               name: list[0].tit,
               url: list[0].cartoonId,
@@ -168,9 +172,15 @@ export default {
     },
   },
   created() {
-    let item = sessionStorage.getItem("mhItem");
-    if (item) this.data = JSON.parse(item);
     this.init();
+    //刷新的时候 更新vuex 里面的章节信息
+    if (!Object.keys(this.mhData).length) {
+      let item = sessionStorage.getItem("mhItem");
+      if (item) this.setMhData(JSON.parse(item));
+    }
+  },
+  computed: {
+    ...mapState(["mhData"]),
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {

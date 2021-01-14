@@ -6,26 +6,33 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         userObj: {},
-        mhData: {
-
-        },
+        mhData: {},
         serchKey: ''
     },
     mutations: {
+        /**
+         * 改变用户数据
+        */
         setUserObj(state, data) {
-            //改变用户数据
-        },
-        setMhData(state, data) {
 
         },
+        /**
+         * 漫画章节 信息
+        */
+        setMhData(state, data) {
+            state.mhData = data;
+        },
+        /**
+         * 查询条件
+        */
         setSerchKey(state, key) { state.serchKey = key; }
     },
     actions: {
-        setUserObj({ commit }) {
-            commit('setUserObj')
+        setUserObj({ commit }, data) {
+            commit('setUserObj', data)
         },
-        setMhData({ commit }) {
-            commit('setMhData')
+        setMhData({ commit }, data) {
+            commit('setMhData', data)
         },
         setSerchKey({ commit }, key) {
             commit('setSerchKey', key)
