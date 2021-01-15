@@ -2,7 +2,7 @@
 技术：vue + vant + less + axios
 
 此项目仅学习交流使用，请勿用于商业（非法）用途！
-接口来源于网络。运行项目之前请确保有node环境（nodejs 6.0+）。
+数据来源于网络。运行项目之前请确保有node环境（nodejs 6.0+）。
 
 线上预览地址：http://yw738.gitee.io/mh
 
