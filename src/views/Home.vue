@@ -49,7 +49,7 @@
  */
 import { homeApi } from "@/api/api";
 import { mapState, mapMutations } from "vuex";
-import homeList from "./home/HomeList";
+import homeList from "./Home/HomeList";
 import { Dialog } from "vant";
 import { imgList } from "@/util/home.js";
 
