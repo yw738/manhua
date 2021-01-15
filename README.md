@@ -30,10 +30,10 @@
 
 > yarn serve 
 
-5、打包预览
+5、打包
 
 > yarn build 
 
-6、预览
+6、打包预览
 
 > 双击打开生成在dist目录下的index.html文件即可
