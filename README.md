@@ -30,7 +30,7 @@
 
 > yarn serve 
 
-5、打包
+5、打包预览
 
 > yarn build 
 
