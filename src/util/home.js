@@ -3,7 +3,7 @@
 export const imgList = [
     {
         link: "/about?url=2guimiezhiren",
-        cover: "https://res1.xiaoqinre.com/images/cover/201804/1524518761GNJI4Q3rgm1sqizg.jpg",
+        cover: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Finews.gtimg.com%2Fnewsapp_match%2F0%2F11595557604%2F0.jpg&refer=http%3A%2F%2Finews.gtimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613267866&t=9fa4fb4e710a840d01e4f5bdc9e02266",
         title: '鬼灭之刃',
         cartoonId: "2guimiezhiren",
         cartoonType: "少年漫画",
@@ -13,7 +13,7 @@ export const imgList = [
     },
     {
         link: "/about?url=2binghaizhanji",
-        cover: "https://bkimg.cdn.bcebos.com/pic/d439b6003af33a87fe190da5c85c10385343b51c?x-bce-process=image/resize,m_lfit,w_268,limit_1/format,f_jpg",
+        cover: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fq_70%2Cc_zoom%2Cw_640%2Fimages%2F20180322%2Fd189a222453d4b0f8f5fdac897c438f5.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613268059&t=9b219ec0940dddb75fd128ed59bedd2e",
         title: '冰海战记',
         cartoonId: "2binghaizhanji",
         cartoonType: "少年漫画",
@@ -23,7 +23,7 @@ export const imgList = [
     },
     {
         link: "/about?url=149733",
-        cover: "https://oss.mkzcdn.com/comic/cover/20180412/5acebcc67f6f0-600x800.!cover-400",
+        cover: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fwww.hanhande.net%2Fupload%2F170220%2F1283568_094513_1.jpg&refer=http%3A%2F%2Fwww.hanhande.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1613268238&t=fca3892d08aa98b97f6860b9267a016e",
         title: '斗破苍穹',
         cartoonId: "149733",
         cartoonType: "热血 玄幻 动作",

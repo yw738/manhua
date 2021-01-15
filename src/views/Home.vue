@@ -137,6 +137,12 @@ export default {
   height: 2.2rem;
   width: 100vw;
   overflow: hidden;
+  .van-swipe {
+    height: 100%;
+  }
+  .van-swipe__indicators {
+    z-index: 99;
+  }
 }
 .swiper img {
   min-height: 100%;

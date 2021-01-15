@@ -119,9 +119,11 @@ export default {
       loading();
       mhDetailsApi(url).then((res) => {
         let { code } = res.data;
-        let list = res.data.data.data[0].content;
         if (code === 0) {
+          let list = res.data.data.data[0].content;
           this.list = list;
+        }else{
+          this.back();
         }
         load.clear();
       });

@@ -3,7 +3,7 @@
     <!-- include 希望缓存的组件   -->
     <!-- exclude 不希望被缓存的组件 -->
     <!-- exclude 优先级高于 include -->
-    <keep-alive include="AboutIndex,home" max="1" :exclude="isKeepalive?'':'AboutIndex'">
+    <keep-alive include="AboutIndex" max="1" :exclude="isKeepalive?'':'AboutIndex'">
       <router-view v-if="isShow" />
     </keep-alive>
   </div>

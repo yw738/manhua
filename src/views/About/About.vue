@@ -25,7 +25,7 @@
           </div>
           <div class="btn_box">
             <van-button round color="#fb7299" @click="start" type="info"
-              >观看{{ startJson.name }}</van-button
+              >阅读{{ startJson.num }}</van-button
             >
           </div>
         </van-col>
@@ -61,7 +61,7 @@
     <div id="list_box">
       <van-row>
         <van-col :span="listSize" v-for="(item, i) in list" :key="i">
-          <div class="list_box">
+          <div class="list_box" @click="toDetail">
             <router-link
               :to="{
                 path: '/detail',
@@ -70,6 +70,11 @@
               class="span"
               >{{ item.tit }}</router-link
             >
+            <!-- <router-link
+              :to="{}"
+              class="span"
+              >{{ item.tit }}</router-link
+            > -->
           </div>
         </van-col>
       </van-row>
@@ -83,7 +88,7 @@
  */
 import { mhListApi } from "@/api/api";
 import { mapState, mapMutations } from "vuex";
-
+import { Toast } from "vant";
 export default {
   name: "AboutIndex",
   data() {
@@ -92,7 +97,7 @@ export default {
       list: [], //章节列表
       sort: true, //排序规则
       startJson: {
-        name: "",
+        num: "",
         url: "",
       },
       isAllShowTips: false, //是否显示弹框
@@ -123,8 +128,8 @@ export default {
             list.map((v) => (v.tit = v.title.substring(0, 10)));
             list = list.sort((n, m) => n.chapterId - m.chapterId); //章节根据id 排个序
             this.startJson = {
-              name: list[0].tit,
-              url: list[0].cartoonId,
+              num: list[0].tit,
+              url: list[0].chapterId,
             };
             window.sessionStorage.setItem("mhList", JSON.stringify(list));
             this.list = list;
@@ -155,11 +160,13 @@ export default {
      * 开始阅读
      */
     start() {
-      let { url } = this.startJson; //这个url 类似id
+      if (this.toDetail()) return;
+      let { url, num } = this.startJson; //这个url 类似id
       this.$router.push({
         path: "/detail",
         query: {
           url: url,
+          num: num,
         },
       });
     },
@@ -169,6 +176,13 @@ export default {
     imgErr() {
       let imgBg = document.querySelector(".img_box .img");
       imgBg.style.background = "#fb7299b5";
+    },
+    /**
+     * 拦截跳转
+     */
+    toDetail() {
+      // Toast('防止版权问题，暂不展示漫画详情！请本地预览。');
+      // return true
     },
   },
   created() {
