@@ -120,7 +120,8 @@ export default {
       mhDetailsApi(url).then((res) => {
         let { code } = res.data;
         if (code === 0) {
-          let list = res.data.data.data[0].content;
+          let arr = res.data.data.data[0]||res.data.data.data;
+          let list = arr.content;
           this.list = list;
         }else{
           this.back();
@@ -138,7 +139,8 @@ export default {
       loading();
       mhDetailsApi(url).then((res) => {
         let { code } = res.data;
-        let list = res.data.data.data[0].content;
+        let arr = res.data.data.data[0]||res.data.data.data;
+        let list = arr.content;
         if (code === 0) {
           this.isShow = false;
           this.popup = false;
