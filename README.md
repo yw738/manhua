@@ -11,7 +11,7 @@
 如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！
 # 漫画下载
 
-https://github.com/yw738/manhua_down/tree/guiDevelop
+https://github.com/yw738/manhua_down/
 
 # 快速上手
 
