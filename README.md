@@ -6,7 +6,7 @@
 
 线上预览地址：http://yw738.gitee.io/mh
 
-漫画下载：https://github.com/yw738/manhua_down/
+漫画下载工具：https://github.com/yw738/manhua_down/
 
 推荐使用移动端访问，体验更佳。该预览地址为了防止不必要的麻烦，不支持访问漫画的详情页，请clone代码到本地预览。
 
