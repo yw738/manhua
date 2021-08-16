@@ -8,24 +8,13 @@
         @click="toSearch"
         shape="round"
       />
-      <div class="flex tipBox">
-        <img
-          @click="setHouse"
-          src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/class.png"
-          alt
-        />
-        <img
-          @click="userHome"
-          src="http://css.mangabz.com/v201911081548/mangabz/images/mobile/icon_user.png"
-          alt
-        />
-      </div>
     </div>
     <div class="swiper">
       <van-swipe :autoplay="3000" :loop="true" indicator-color="white">
         <van-swipe-item v-for="(item, i) in imgList" :key="i">
           <router-link :to="item.link" @click.native="selectList(item)">
-            <img :src="item.cover" />
+            <van-image :src="item.cover" fit="cover" />
+            <div class="swiperBotton">{{ item.title }}</div>
           </router-link>
         </van-swipe-item>
       </van-swipe>
@@ -33,8 +22,6 @@
 
     <homeList :tit="topBox" :data="topBoxList" />
     <homeList :tit="bottomBox" :data="bottomList" />
-    <!-- <div class="index_border" /> -->
-    <!-- 申明 -->
     <div class="sm">
       声明 :
       <br />数据均来源于网络，并不参与存储、上传、创作，版权争议与本站无关。
@@ -47,7 +34,7 @@
 /**
  * 首页
  */
-import { homeApi } from "@/api/api";
+import { homeApi, homePageApi } from "@/api/api";
 import { mapState, mapMutations } from "vuex";
 import homeList from "./Home/HomeList";
 import { Dialog } from "vant";
@@ -57,7 +44,7 @@ export default {
   name: "home",
   data() {
     return {
-      imgList: imgList,
+      imgList: [],
       topBoxList: [],
       bottomList: [],
       topBox: {
@@ -125,6 +112,24 @@ export default {
         }
       });
     }
+    let homePageList = sessionStorage.getItem("homePageList");
+    if (homePageList) {
+      this.imgList = JSON.parse(homePageList);
+    } else {
+      homePageApi().then((res) => {
+        let { code } = res.data;
+        let list = res.data.data.data || [];
+        if (code === 0) {
+          this.imgList = list.map((item) => {
+            return {
+              ...item,
+              link: `/about?url=${item.cartoonId}`,
+            };
+          });
+          sessionStorage.setItem("homePageList", JSON.stringify(this.imgList)); //首页数据
+        }
+      });
+    }
   },
   components: {
     homeList,
@@ -137,6 +142,7 @@ export default {
   height: 2.2rem;
   width: 100vw;
   overflow: hidden;
+  position: relative;
   .van-swipe {
     height: 100%;
   }
@@ -153,7 +159,8 @@ export default {
   align-items: center;
 }
 .serchBox {
-  width: 55vw;
+  // width: 55vw;
+  width: 100vw;
 }
 .tipBox img {
   height: 0.28rem;
@@ -164,5 +171,17 @@ export default {
   text-align: left;
   padding: 0.1rem;
   color: red;
+}
+.swiperBotton {
+  position: absolute;
+  height: 0.2rem;
+  width: auto;
+  bottom: 0.1rem;
+  left: 0.1rem;
+  padding: 0.1rem;
+  background: #3333338f;
+  color: #fff;
+  letter-spacing: 0.02rem;
+  font-size: 0.14rem;
 }
 </style>

@@ -33,39 +33,3 @@ export const imgList = [
     },
 ];
 
-export const topBoxList = [
-    {
-        author: "夜宵草",
-        cartoonId: "2zhongshengjihua",
-        cartoonType: "少年漫画",
-        cover: "https://res1.xiaoqinre.com/images/cover/201911/1574325481mULVOG0_76b8xiIi.jpg",
-        descs: "简介：重生计划漫画，二落毕业现在27岁单身汉，海崎新太再次面试失败...家里也说明在不回老家就停止提供生活费，海崎新太该怎么办但是似乎他正在被进行某个重生实验的组织盯上了...",
-        title: "重生计划",
-        updateTime: "2019-11-21",
-        link: "/about?url=2zhongshengjihua",
-    },
-    {
-        author: "ぷよ,谷川流",
-        cartoonId: "2lianggongchunrijiangdeyouyu",
-        cartoonType: "少年漫画",
-        cover: "https://res1.xiaoqinre.com/images/cover/201804/1523148270jTMoCh9sh51QyTyj.jpg",
-        descs: "简介：凉宫春日酱的忧郁漫画 ， 原本只是个平凡女孩的她，因为在小学六年级时随父亲一起去看一场棒球比赛的时候发现“世界上原来有那么多人”这一事实，从此对原本习以为常的日常生活感到极端无趣和绝望，由此开始试图改变自己以便过上向往的有趣人生。在国中与所有向她告白的男生交往一遍（时间从一周到五分钟不等）后，怀抱“普通人太无趣了”这样的极端想法，对于日常人际交往完全不感兴趣的她开始做出各种怪异举动试图引起外星人的注意，由此成为众人口中的怪人，却一直未能如愿，因此每天都十分忧郁。但她不知道的是，在她这些看似徒劳无功的行动中，世界已经开始围绕她转动。具有随自己意识改变世界的力量，被一部分超能力者看作创世神一样的存在，本人却对此一无所知。",
-        title: "凉宫春日酱的忧郁",
-        updateTime: "2019-04-12",
-        link: "/about?url=2lianggongchunrijiangdeyouyu",
-    },
-]
-
-
-export const bottomList = [
-    {
-        author: "ぷよ,谷川流",
-        cartoonId: "2lianggongchunrijiangdeyouyu",
-        cartoonType: "少年漫画",
-        cover: "https://res1.xiaoqinre.com/images/cover/201804/1523148270jTMoCh9sh51QyTyj.jpg",
-        descs: "简介：凉宫春日酱的忧郁漫画 ， 原本只是个平凡女孩的她，因为在小学六年级时随父亲一起去看一场棒球比赛的时候发现“世界上原来有那么多人”这一事实，从此对原本习以为常的日常生活感到极端无趣和绝望，由此开始试图改变自己以便过上向往的有趣人生。在国中与所有向她告白的男生交往一遍（时间从一周到五分钟不等）后，怀抱“普通人太无趣了”这样的极端想法，对于日常人际交往完全不感兴趣的她开始做出各种怪异举动试图引起外星人的注意，由此成为众人口中的怪人，却一直未能如愿，因此每天都十分忧郁。但她不知道的是，在她这些看似徒劳无功的行动中，世界已经开始围绕她转动。具有随自己意识改变世界的力量，被一部分超能力者看作创世神一样的存在，本人却对此一无所知。",
-        title: "凉宫春日酱的忧郁",
-        updateTime: "2019-04-12",
-        link: "/about?url=2lianggongchunrijiangdeyouyu",
-    },
-]
