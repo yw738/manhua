@@ -4,7 +4,7 @@
 此项目仅学习交流使用，请勿用于商业（非法）用途！
 数据来源于网络。运行项目之前请确保有node环境（nodejs 6.0+）。
 
-[预览地址](http://yw738.gitee.io/mh?source=github)
+[预览地址](http://yw738.gitee.io/mh/#/?source=github)
 
 [漫画下载工具](https://github.com/yw738/manhua_down/)
 
