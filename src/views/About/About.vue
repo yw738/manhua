@@ -52,6 +52,7 @@
             <van-icon size="1.4em" class="sortTop" name="exchange" />
           </div>
           <div class="sort" @click="chListFn" style="margin: 0 1em">
+            类型
             <van-icon size="1.4em" class="sortTop" name="apps-o" />
           </div>
         </van-col>
@@ -119,16 +120,17 @@ export default {
     init() {
       loading();
       let { url } = this.$route.query;
+      // 记录父级的路径
       window.sessionStorage.setItem("parentUrl", url);
       mhListApi(url)
         .then((res) => {
-          let { code } = res.data;
-          let list = res.data.data.data;
+          let { code,data } = res.data;
+          let list = data.chapterList;
           if (code === 0) {
             list.map((v) => (v.tit = v.title.substring(0, 10)));
             list = list.sort((n, m) => n.chapterId - m.chapterId); //章节根据id 排个序
             this.startJson = {
-              num: list[0].tit,
+              num: list[0].title,
               url: list[0].chapterId,
             };
             window.sessionStorage.setItem("mhList", JSON.stringify(list));

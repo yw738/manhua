@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="isAllowShow">
+    <div>
       <!-- include 希望缓存的组件   -->
       <!-- exclude 不希望被缓存的组件 -->
       <!-- exclude 优先级高于 include -->
@@ -12,10 +12,6 @@
         <router-view v-if="isShow" />
       </keep-alive>
     </div>
-    <div v-else>
-      <div>测试测试测试</div>
-      <van-skeleton title avatar :row="3" />
-    </div>
   </div>
 </template>
 <script>
@@ -25,8 +21,6 @@ export default {
     return {
       isShow: true, //验证用户是否是移动端预览
       isKeepalive: false, //是否对详情进行缓存
-
-      isAllowShow: false, //是否允许显示页面，初次进来会显示一次，仅从github进来的时候才会为true
     };
   },
   methods: {
@@ -68,26 +62,10 @@ export default {
     },
   },
   created() {
-    //验证来源，非 github 直接拦截
-    let sourceIsAllow =
-      location.href.split("?")[1] &&
-      location.href.split("?")[1].includes("github");
-    if (sourceIsAllow) {
-      this.isAllowShow = true;
-      window.sessionStorage.setItem("sourceIsAllow", true);
-    } else {
-      this.isAllowShow = false;
-    }
   },
   watch: {
     //监听路由 判断是否进行keep-alive动态缓存
     $route: function (to, from) {
-      let source = window.sessionStorage.getItem("sourceIsAllow");
-      if (source == "true") {
-        this.isAllowShow = true;
-      } else {
-        this.isAllowShow = false;
-      }
       if (to.name === "detail" || to.name === "about") {
         this.isKeepalive = true;
       } else {

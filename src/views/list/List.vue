@@ -5,7 +5,7 @@
       <van-row>
         <van-col span="8" v-for="(item, index) in data" :key="index">
           <router-link
-            :to="{ path: '/about', query: { url: item.cartoonId } }"
+            :to="{ path: '/about', query: { url: item.comicId } }"
             @click.native="selectList(item)"
           >
             <div class="list">
@@ -49,6 +49,7 @@ export default {
     ...mapMutations(['setMhData']),
     /**
      * 检索回调
+     * @param {array} list 查询的列表
      */
     serch(list) {
       this.data = [];

@@ -1,13 +1,7 @@
 <template>
   <div class>
     <div class="flex tipBox">
-      <van-search
-        class="serchBox"
-        disabled
-        placeholder="请输入搜索关键词"
-        @click="toSearch"
-        shape="round"
-      />
+      <van-search class="serchBox" disabled placeholder="请输入搜索关键词" @click="toSearch" shape="round" />
     </div>
     <div class="swiper">
       <van-swipe :autoplay="3000" :loop="true" indicator-color="white">
@@ -34,107 +28,92 @@
 /**
  * 首页
  */
-import { homeApi, homePageApi } from "@/api/api";
-import { mapState, mapMutations } from "vuex";
-import homeList from "./Home/HomeList";
-import { Dialog } from "vant";
-import { imgList } from "@/util/home.js";
+import { homeApi, homePageApi } from '@/api/api'
+import { mapState, mapMutations } from 'vuex'
+import homeList from './Home/HomeList'
+import { Dialog } from 'vant'
 
 export default {
-  name: "home",
+  name: 'home',
+  components: {
+    homeList,
+  },
   data() {
     return {
       imgList: [],
       topBoxList: [],
       bottomList: [],
       topBox: {
-        title: "人氣推薦",
+        title: '人氣推薦',
       },
       bottomBox: {
-        title: "編輯推薦",
+        title: '編輯推薦',
       },
-    };
+    }
   },
   methods: {
-    ...mapMutations(["setMhData"]),
+    ...mapMutations(['setMhData']),
     toSearch() {
-      this.$router.push({ path: "/search" });
-    },
-    /*
-     *用户收藏
-     */
-    setHouse() {
-      Dialog.alert({
-        title: "提示",
-        message: "暂未开放收藏列表!",
-      }).then(() => {
-        // on close
-      });
-    },
-    /*
-     *用户
-     */
-    userHome() {
-      Dialog.alert({
-        title: "提示",
-        message: "暂未开放个人中心!",
-      }).then(() => {
-        // on close
-      });
+      this.$router.push({ path: '/search' })
     },
     /**
      * 点击回调
      */
     selectList(item) {
-      this.setMhData(item);
-      sessionStorage.setItem("mhItem", JSON.stringify(item));
+      this.setMhData(item)
+      sessionStorage.setItem('mhItem', JSON.stringify(item))
+    },
+    // 获取轮播图
+    getSwiper() {
+      let homePageList = sessionStorage.getItem('homePageList')
+      if (homePageList) {
+        this.imgList = JSON.parse(homePageList)
+      } else {
+        homePageApi().then((res) => {
+          let { code } = res.data
+          let list = res.data.data || []
+          if (code === 0) {
+            this.imgList = list.map((item) => {
+              return {
+                ...item,
+                link: `/about?url=${item.comicId}`,
+              }
+            })
+            sessionStorage.setItem('homePageList', JSON.stringify(this.imgList)) //首页数据
+          }
+        })
+      }
+    },
+    // 获取列表
+    getList() {
+      let homeList = sessionStorage.getItem('homeList')
+      if (homeList) {
+        this.topBoxList = JSON.parse(homeList).slice(0, 6)
+        this.bottomList = JSON.parse(homeList).slice(6, 12)
+      } else {
+        homeApi().then((res) => {
+          let { code } = res.data
+          let list = res.data.data || []
+          if (code === 0) {
+            list = list.map((item) => {
+              return {
+                ...item,
+                link: `/about?url=${item.comicId}`,
+              }
+            })
+            this.topBoxList = list.slice(0, 6)
+            this.bottomList = list.slice(6, 12)
+            sessionStorage.setItem('homeList', JSON.stringify(list)) //首页数据
+          }
+        })
+      }
     },
   },
   created() {
-    let homeList = sessionStorage.getItem("homeList");
-    if (homeList) {
-      this.topBoxList = JSON.parse(homeList).slice(0, 6);
-      this.bottomList = JSON.parse(homeList).slice(6, 12);
-    } else {
-      homeApi().then((res) => {
-        let { code } = res.data;
-        let list = res.data.data.data || [];
-        if (code === 0) {
-          list = list.map((item) => {
-            return {
-              ...item,
-              link: `/about?url=${item.cartoonId}`,
-            };
-          });
-          this.topBoxList = list.slice(0, 6);
-          this.bottomList = list.slice(6, 12);
-          sessionStorage.setItem("homeList", JSON.stringify(list)); //首页数据
-        }
-      });
-    }
-    let homePageList = sessionStorage.getItem("homePageList");
-    if (homePageList) {
-      this.imgList = JSON.parse(homePageList);
-    } else {
-      homePageApi().then((res) => {
-        let { code } = res.data;
-        let list = res.data.data.data || [];
-        if (code === 0) {
-          this.imgList = list.map((item) => {
-            return {
-              ...item,
-              link: `/about?url=${item.cartoonId}`,
-            };
-          });
-          sessionStorage.setItem("homePageList", JSON.stringify(this.imgList)); //首页数据
-        }
-      });
-    }
+    this.getSwiper() //获取首页
+    this.getList() //获取列表
   },
-  components: {
-    homeList,
-  },
-};
+}
 </script>
 
 <style lang="less" scope>
@@ -176,6 +155,7 @@ export default {
   position: absolute;
   height: 0.2rem;
   width: auto;
+  max-width: calc(100% - 0.4rem);
   bottom: 0.1rem;
   left: 0.1rem;
   padding: 0.1rem;
@@ -183,5 +163,8 @@ export default {
   color: #fff;
   letter-spacing: 0.02rem;
   font-size: 0.14rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

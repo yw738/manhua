@@ -45,7 +45,7 @@ export default {
         let { data, code } = res.data;
         if (code === 0) {
           this.setSerchKey(val);
-          this.$emit("serch", data.data);
+          this.$emit("serch", data);
         } else {
           Toast.fail("服务器出错");
         }
