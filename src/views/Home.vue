@@ -30,7 +30,7 @@
  */
 import { homeApi, homePageApi } from '@/api/api'
 import { mapState, mapMutations } from 'vuex'
-import homeList from './Home/HomeList'
+import homeList from './Home/HomeList.vue'
 import { Dialog } from 'vant'
 
 export default {
@@ -110,8 +110,8 @@ export default {
     },
   },
   created() {
-    this.getSwiper() //获取首页
     this.getList() //获取列表
+    this.getSwiper() //获取首页
   },
 }
 </script>
