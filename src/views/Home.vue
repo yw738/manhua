@@ -63,33 +63,13 @@ export default {
       this.setMhData(item)
       sessionStorage.setItem('mhItem', JSON.stringify(item))
     },
-    // 获取轮播图
-    getSwiper() {
-      let homePageList = sessionStorage.getItem('homePageList')
-      if (homePageList) {
-        this.imgList = JSON.parse(homePageList)
-      } else {
-        homePageApi().then((res) => {
-          let { code } = res.data
-          let list = res.data.data || []
-          if (code === 0) {
-            this.imgList = list.map((item) => {
-              return {
-                ...item,
-                link: `/about?url=${item.comicId}`,
-              }
-            })
-            sessionStorage.setItem('homePageList', JSON.stringify(this.imgList)) //首页数据
-          }
-        })
-      }
-    },
     // 获取列表
     getList() {
       let homeList = sessionStorage.getItem('homeList')
       if (homeList) {
         this.topBoxList = JSON.parse(homeList).slice(0, 6)
         this.bottomList = JSON.parse(homeList).slice(6, 12)
+        this.imgList = JSON.parse(homeList).slice(12, 17)
       } else {
         homeApi().then((res) => {
           let { code } = res.data
@@ -103,6 +83,7 @@ export default {
             })
             this.topBoxList = list.slice(0, 6)
             this.bottomList = list.slice(6, 12)
+            this.imgList = list.slice(12, 17)
             sessionStorage.setItem('homeList', JSON.stringify(list)) //首页数据
           }
         })
@@ -111,7 +92,6 @@ export default {
   },
   created() {
     this.getList() //获取列表
-    this.getSwiper() //获取首页
   },
 }
 </script>
